@@ -1,935 +1,640 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-lang-key="portfolioTitle">ملفي الشخصي | أحمد مكرم</title>
+    <title data-lang-key="portfolioTitle">Ahmed Makram | Founder of Mandobi</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- AOS Animation -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link rel="icon" href="ahmed.jpg" type="image/x-icon">
+    <!-- Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="icon" href="ahmed.png" type="image/png">
+
     <style>
+        :root {
+            --linkedin-blue: #0A66C2;
+            --linkedin-bg: #F3F2EF;
+            --card-bg: #FFFFFF;
+            --text-main: #191919;
+            --text-sub: #666666;
+        }
         body {
             font-family: 'Cairo', 'Inter', sans-serif;
-            background: linear-gradient(180deg, #0f172a 0%, #020617 70%, #000000 100%);
-            color: #e2e8f0;
-            overflow-x: hidden; /* Prevents horizontal scroll */
+            background-color: var(--linkedin-bg);
+            color: var(--text-main);
         }
-        .gradient-text {
-            background: linear-gradient(to right, #38bdf8, #818cf8, #a78bfa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* Hero Image Framing & Styling */
-        .hero-image-wrapper {
-            position: relative;
-            width: fit-content;
-            margin: 2rem auto 0; /* Default for mobile */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .hero-image {
-            max-width: 240px; /* Adjusted for smaller mobile screens */
-        }
-        @media (min-width: 640px) { /* sm screens */
-            .hero-image {
-                max-width: 300px;
-            }
-        }
-        .hero-image { /* Base styles for hero image, including desktop after media query adjustments */
-            border-radius: 0.75rem;
-            position: relative;
-            z-index: 5;
-            display: block;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-        }
-        .hero-image-frame {
-            content: "";
-            position: absolute;
-            border-radius: 0.85rem;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-sizing: border-box;
-        }
-        .hero-image-frame.frame1 {
-            width: calc(100% + 20px);
-            height: calc(100% + 20px);
-            border: 3px solid rgba(255, 255, 255, 0.25);
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%) rotate(-4deg);
-            z-index: 2;
-        }
-        .hero-image-frame.frame2 {
-            width: calc(100% + 40px);
-            height: calc(100% + 40px);
-            border: 3px solid rgba(56, 189, 248, 0.35);
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%) rotate(3deg);
-            z-index: 1;
-        }
-         .hero-image-frame.frame3 {
-            width: calc(100% + 50px);
-            height: calc(100% + 50px);
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%) rotate(1deg);
-            background: radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, rgba(56, 189, 248, 0) 70%);
-            border-radius: 1rem;
-            z-index: 0;
-            opacity: 0.8;
+        .text-linkedin { color: var(--linkedin-blue); }
+        .bg-linkedin { background-color: var(--linkedin-blue); }
+        .hover-bg-linkedin:hover { background-color: #004182; }
+        
+        /* Card Styling */
+        .li-card {
+            background-color: var(--card-bg);
+            border-radius: 0.5rem; /* 8px */
+            box-shadow: 0 0 0 1px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.05);
+            overflow: hidden;
+            margin-bottom: 1rem;
         }
 
-        @media (min-width: 1024px) { /* lg and up */
-            .hero-image-wrapper {
-                position: absolute;
-                top: 0rem;
-                right: 0px;
-                transform: translateX(-10%);
-                margin: 0;
-            }
-            html[dir="rtl"] .hero-image-wrapper {
-                right: auto;
-                left: 0px;
-                top: 0rem;
-                transform: translateX(10%);
-            }
-            .hero-image {
-                max-width: 330px;
-            }
-            .hero-image-frame.frame1 { transform: translate(-50%, -50%) rotate(-5deg); }
-            .hero-image-frame.frame2 { transform: translate(-50%, -50%) rotate(4deg); }
-        }
-
-
-        .card-base {
-            background-color: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(51, 65, 85, 0.6);
-            border-radius: 0.75rem;
-            transition: all 0.3s ease-in-out;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        .card-base:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 12px 24px rgba(56, 189, 248, 0.2), 0 8px 8px rgba(56, 189, 248, 0.15);
-            border-color: rgba(56, 189, 248, 0.5);
-        }
-        .card-base:hover .certificate-image {
-            transform: scale(1.05);
-        }
-        .certificate-image {
-            transition: transform 0.3s ease-in-out;
-        }
-
-        .decorative-shape {
-            position: absolute;
-            opacity: 0.1;
-            z-index: 0;
-            pointer-events: none;
-            border-style: solid;
-            border-color: rgba(255, 255, 255, 0.2);
-        }
-        .shape-circle-1 { width: 30px; height: 30px; border-radius: 50%; border-width: 1px; top: 15%; left: 8%; animation: float 10s ease-in-out infinite alternate; }
-        .shape-square-1 { width: 25px; height: 25px; border-width: 1px; top: 70%; right: 12%; animation: float 12s ease-in-out infinite; transform: rotate(20deg); }
-        .shape-triangle-1 {
-            width: 0; height: 0;
-            border-left: 15px solid transparent;
-            border-right: 15px solid transparent;
-            border-bottom: 25px solid rgba(129, 140, 248,0.15);
-            top: 30%; right: 80%; animation: float 8s ease-in-out infinite alternate; transform: rotate(-15deg);
-        }
-        .shape-zigzag-1 {
-            width: 40px; height: 8px;
-            top: 85%; left: 20%; animation: float-subtle 7s ease-in-out infinite;
-            background-image: linear-gradient(45deg, rgba(56, 189, 248,0.2) 25%, transparent 25%, transparent 50%, rgba(56, 189, 248,0.2) 50%, rgba(56, 189, 248,0.2) 75%, transparent 75%, transparent);
-            background-size: 15px 15px;
-            border-style: none;
-        }
-         .shape-plus-1 {
-            width: 20px; height: 20px;
-            top: 45%; left: 35%; animation: float-rotate 9s linear infinite;
-            position: absolute; border-style: none;
-        }
-        .shape-plus-1::before, .shape-plus-1::after {
-            content: ''; position: absolute; background-color: rgba(167, 139, 250, 0.2);
-        }
-        .shape-plus-1::before { width: 100%; height: 1px; top: 50%; left: 0; transform: translateY(-50%); }
-        .shape-plus-1::after { width: 1px; height: 100%; top: 0; left: 50%; transform: translateX(-50%); }
-
-        @keyframes float { 0% { transform: translateY(0px) rotate(0deg) scale(1); } 50% { transform: translateY(-15px) rotate(10deg) scale(1.03); } 100% { transform: translateY(0px) rotate(0deg) scale(1); } }
-        @keyframes float-subtle { 0% { transform: translateY(0px); } 50% { transform: translateY(-8px); } 100% { transform: translateY(0px); } }
-        @keyframes float-rotate { 0% { transform: rotate(0deg) translateY(0px); } 50% { transform: rotate(180deg) translateY(-8px); } 100% { transform: rotate(360deg) translateY(0px); } }
-
-        .timeline { position: relative; padding: 20px 0; list-style: none; }
-        .timeline::before { content: ''; position: absolute; top: 0; bottom: 0; width: 3px; background: linear-gradient(to bottom, #38bdf8, #a78bfa); left: 20px; border-radius: 2px; }
-        html[dir="rtl"] .timeline::before { left: auto; right: 20px; }
-        .timeline-item { margin-bottom: 30px; position: relative; padding-left: 50px; }
-        html[dir="rtl"] .timeline-item { padding-left: 0; padding-right: 50px; }
-        .timeline-icon { width: 36px; height: 36px; position: absolute; top: 0; left: 0; background: linear-gradient(to right, #38bdf8, #a78bfa); border-radius: 50%; text-align: center; line-height: 36px; color: white; font-size: 1rem; z-index: 1; border: 2px solid #0f172a; box-shadow: 0 0 8px rgba(56, 189, 248, 0.4); }
-        html[dir="rtl"] .timeline-icon { left: auto; right: 0; }
-        .timeline-content { padding: 16px; background-color: rgba(30, 41, 59, 0.7); border-radius: 8px; border: 1px solid rgba(51, 65, 85, 0.7); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
-        .timeline-content .date { font-size: 0.8rem; opacity: 0.8; display: block; margin-bottom: 0.3rem; color: #818cf8; font-weight: 600;}
-        .timeline-content h5 { font-size: 1.1rem; font-weight: 700; color: #e2e8f0; margin-bottom: 0.4rem;}
-        .timeline-content p { font-size: 0.9rem; color: #cbd5e1; margin-bottom: 0; line-height: 1.6; }
-
-        audio::-webkit-media-controls-panel { background-color: rgba(30, 41, 59, 0.8); color: #e2e8f0; border-radius: 6px; }
-        audio::-webkit-media-controls-play-button, audio::-webkit-media-controls-timeline, audio::-webkit-media-controls-current-time-display, audio::-webkit-media-controls-time-remaining-display, audio::-webkit-media-controls-mute-button, audio::-webkit-media-controls-volume-slider { color: #38bdf8; }
-
-        .project-video-container { position: relative; width: 100%; padding-bottom: 56.25%; overflow: hidden; border-radius: 0.5rem; }
-        .project-video-container video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
-
-        .marquee-container {
-            height: 200px;
-            -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
-            mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
-        }
-        html[dir="rtl"] .marquee-container {
-            -webkit-mask-image: linear-gradient(to left, transparent 0%, black 5%, black 95%, transparent 100%);
-            mask-image: linear-gradient(to left, transparent 0%, black 5%, black 95%, transparent 100%);
-        }
-        @media (min-width: 768px) {
-            .marquee-container { height: 230px; }
-        }
-
-        .marquee-track {
-            display: flex;
-            width: fit-content;
-            animation: marquee-scroll 40s linear infinite;
-        }
-        .marquee-container:hover .marquee-track {
-            animation-play-state: paused;
-        }
-        .marquee-item {
-            flex-shrink: 0;
-            width: 200px;
-            margin-right: 1rem;
-            box-sizing: border-box;
-        }
-        .marquee-item img {
-            height: 120px;
-            object-fit: cover;
+        /* Cover Photo Pattern */
+        .cover-photo {
+            background: rgb(10,102,194);
+            background: linear-gradient(135deg, rgba(10,102,194,1) 0%, rgba(0,65,130,1) 100%);
+            height: 140px;
             width: 100%;
+            position: relative;
         }
-        @media (min-width: 768px) {
-            .marquee-item { width: 260px; margin-right: 1.5rem; }
-            .marquee-item img { height: 160px; }
+        
+        .profile-img-container {
+            width: 152px;
+            height: 152px;
+            border-radius: 50%;
+            border: 4px solid white;
+            position: absolute;
+            top: 60px;
+            right: 24px; /* RTL default */
+            overflow: hidden;
+            background: white;
+            z-index: 10;
         }
-
-        html[dir="rtl"] .marquee-track { animation-name: marquee-scroll-rtl; }
-        html[dir="rtl"] .marquee-item { margin-right: 0; margin-left: 1rem; }
-        @media (min-width: 768px) {
-            html[dir="rtl"] .marquee-item { margin-left: 1.5rem; }
-        }
-
-
-        @keyframes marquee-scroll {
-            0% { transform: translateX(0%); }
-            100% { transform: translateX(-50%); }
-        }
-        @keyframes marquee-scroll-rtl {
-            0% { transform: translateX(0%); }
-            100% { transform: translateX(50%); }
+        html[dir="ltr"] .profile-img-container {
+            right: auto;
+            left: 24px;
         }
 
+        /* Button Styles */
+        .btn-primary {
+            background-color: var(--linkedin-blue);
+            color: white;
+            border-radius: 9999px;
+            padding: 0.4rem 1.2rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .btn-primary:hover { background-color: #004182; }
+        
+        .btn-outline {
+            background-color: transparent;
+            color: var(--linkedin-blue);
+            border: 1px solid var(--linkedin-blue);
+            border-radius: 9999px;
+            padding: 0.4rem 1.2rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .btn-outline:hover {
+            background-color: rgba(10, 102, 194, 0.1);
+            box-shadow: inset 0 0 0 1px var(--linkedin-blue);
+        }
+
+        /* Timeline for Experience - FIXED */
+        .exp-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #e5e7eb;
+            /* Center relative to w-12 (48px) icon: 48/2 = 24px. Line width 2px. So 23px from edge */
+            right: 23px; 
+            z-index: 0; /* Line sits at level 0 */
+        }
+        html[dir="ltr"] .exp-item::before { 
+            right: auto; 
+            left: 23px; 
+        }
+        
+        /* Skills Tags */
+        .skill-tag {
+            background-color: #F3F2EF;
+            color: #666666;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+        .skill-tag:hover {
+            background-color: #EBEBEB;
+            color: var(--text-main);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        /* Video Styles */
+        video {
+            object-fit: cover;
+            pointer-events: none; /* Disable interaction to prevent pausing/controls */
+        }
     </style>
 </head>
-<body class="antialiased">
+<body class="antialiased pt-20">
 
-    <div class="decorative-shape shape-circle-1"></div>
-    <div class="decorative-shape shape-square-1"></div>
-    <div class="decorative-shape shape-triangle-1"></div>
-    <div class="decorative-shape shape-zigzag-1"></div>
-    <div class="decorative-shape shape-plus-1"></div>
+    <!-- Navbar -->
+    <nav class="fixed top-0 inset-x-0 z-50 bg-white shadow-sm h-16 transition-all duration-300">
+        <div class="container mx-auto px-4 h-full flex items-center justify-between max-w-7xl">
+            <div class="flex items-center gap-4">
+                <!-- Search Bar Aesthetic -->
+                <div class="hidden md:flex items-center bg-blue-50 px-3 py-2 rounded-md w-64">
+                    <i class="fas fa-search text-gray-500 text-sm"></i>
+                    <span class="mx-2 text-gray-500 text-sm" data-lang-key="searchPlaceholder">Search...</span>
+                </div>
+            </div>
 
-    <header class="py-4 px-4 sm:px-6 lg:px-8 sticky top-0 z-50 bg-slate-900/80 backdrop-blur-lg shadow-md">
-        <div class="container mx-auto flex justify-between items-center">
-            <a href="#home" class="text-2xl sm:text-3xl font-bold gradient-text" data-lang-key="navBrand">أحمد مكرم</a>
-            <nav class="hidden lg:flex items-center space-x-4 lg:space-x-6 rtl:space-x-reverse rtl:lg:space-x-reverse">
-                <a href="#home" class="hover:text-sky-400 transition-colors text-sm lg:text-base" data-lang-key="navHome">الرئيسية</a>
-                <a href="#about" class="hover:text-sky-400 transition-colors text-sm lg:text-base" data-lang-key="navAbout">عني</a>
-                <a href="#skills" class="hover:text-sky-400 transition-colors text-sm lg:text-base" data-lang-key="navSkills">مهاراتي</a>
-                <a href="#projects" class="hover:text-sky-400 transition-colors text-sm lg:text-base" data-lang-key="navProjects">مشاريعي</a>
-                <a href="#experience" class="hover:text-sky-400 transition-colors text-sm lg:text-base" data-lang-key="navExperience">خبراتي</a>
-                <a href="#certificates-preview" class="hover:text-sky-400 transition-colors text-sm lg:text-base" data-lang-key="navCertificates">شهاداتي</a>
-                <a href="#voice-work" class="hover:text-sky-400 transition-colors text-sm lg:text-base" data-lang-key="navPortfolio">أعمالي الصوتية</a>
-                <a href="#contact" class="bg-gradient-to-r from-sky-500 to-indigo-500 hover:from-sky-600 hover:to-indigo-600 text-white font-semibold py-1.5 px-3 lg:py-2 lg:px-5 rounded-lg transition-all duration-300 text-xs lg:text-sm shadow-md hover:shadow-lg" data-lang-key="navContact">اتصل بنا</a>
-                 <select id="language-toggle" class="ml-2 lg:ml-4 bg-slate-700 text-slate-200 border border-slate-600 rounded-md py-1 px-1.5 lg:py-1 lg:px-2 text-xs lg:text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 cursor-pointer">
+            <div class="flex items-center gap-1 sm:gap-6 text-gray-500 text-xs sm:text-sm font-medium">
+                <a href="#home" class="flex flex-col items-center hover:text-gray-900 transition gap-1 group">
+                    <i class="fas fa-home text-lg sm:text-xl group-hover:text-black"></i>
+                    <span class="hidden sm:block" data-lang-key="navHome">Home</span>
+                </a>
+                <a href="#about" class="flex flex-col items-center hover:text-gray-900 transition gap-1 group">
+                    <i class="fas fa-user text-lg sm:text-xl group-hover:text-black"></i>
+                    <span class="hidden sm:block" data-lang-key="navAbout">About</span>
+                </a>
+                <a href="#projects" class="flex flex-col items-center hover:text-gray-900 transition gap-1 group">
+                    <i class="fas fa-briefcase text-lg sm:text-xl group-hover:text-black"></i>
+                    <span class="hidden sm:block" data-lang-key="navProjects">Projects</span>
+                </a>
+                <a href="#comments" class="flex flex-col items-center hover:text-gray-900 transition gap-1 group">
+                    <i class="fas fa-comment-dots text-lg sm:text-xl group-hover:text-black"></i>
+                    <span class="hidden sm:block" data-lang-key="navComments">Comments</span>
+                </a>
+                
+                <div class="border-l border-gray-300 h-8 mx-1 hidden sm:block rtl:border-r rtl:border-l-0"></div>
+
+                <select id="language-toggle" class="bg-transparent text-gray-600 font-semibold cursor-pointer focus:outline-none hover:text-black">
                     <option value="ar">العربية</option>
                     <option value="en">English</option>
                 </select>
-            </nav>
-            <button id="mobile-menu-button" class="lg:hidden text-slate-200 focus:outline-none">
-                <i class="fas fa-bars text-xl sm:text-2xl"></i>
-            </button>
+            </div>
         </div>
-    </header>
+    </nav>
 
-    <div id="mobile-menu" class="hidden lg:hidden bg-slate-800/95 backdrop-blur-sm p-4 fixed inset-x-0 top-[60px] sm:top-[68px] z-40 shadow-xl rounded-b-lg">
-        <nav class="flex flex-col space-y-3">
-            <a href="#home" class="hover:text-sky-400 transition-colors block py-2 text-sm" data-lang-key="navHome">الرئيسية</a>
-            <a href="#about" class="hover:text-sky-400 transition-colors block py-2 text-sm" data-lang-key="navAbout">عني</a>
-            <a href="#skills" class="hover:text-sky-400 transition-colors block py-2 text-sm" data-lang-key="navSkills">مهاراتي</a>
-            <a href="#projects" class="hover:text-sky-400 transition-colors block py-2 text-sm" data-lang-key="navProjects">مشاريعي</a>
-            <a href="#experience" class="hover:text-sky-400 transition-colors block py-2 text-sm" data-lang-key="navExperience">خبراتي</a>
-            <a href="#certificates-preview" class="hover:text-sky-400 transition-colors block py-2 text-sm" data-lang-key="navCertificates">شهاداتي</a>
-            <a href="#voice-work" class="hover:text-sky-400 transition-colors block py-2 text-sm" data-lang-key="navPortfolio">أعمالي الصوتية</a>
-            <a href="#contact" class="bg-sky-500 hover:bg-sky-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors block text-center mt-2 text-sm" data-lang-key="navContact">اتصل بنا</a>
-            <select id="language-toggle-mobile" class="mt-3 w-full bg-slate-700 text-slate-200 border border-slate-600 rounded-md py-2 px-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
-                <option value="ar">العربية</option>
-                <option value="en">English</option>
-            </select>
-        </nav>
-    </div>
+    <!-- Main Layout -->
+    <main class="container mx-auto px-0 sm:px-4 max-w-7xl grid grid-cols-1 lg:grid-cols-12 gap-6 pb-12">
+        
+        <!-- Left Sidebar (Profile) -->
+        <aside class="lg:col-span-3 lg:col-start-1" data-aos="fade-up">
+            <!-- Profile Card -->
+            <div id="home" class="li-card relative pb-4">
+                <div class="cover-photo"></div>
+                <div class="profile-img-container cursor-pointer shadow-md">
+                    <img src="ahmed.png" alt="Ahmed Makram" class="w-full h-full object-cover">
+                </div>
+                
+                <div class="mt-16 px-4 pt-2">
+                    <h1 class="text-2xl font-bold hover:underline cursor-pointer decoration-blue-600" data-lang-key="heroName">Ahmed Makram El-Saeedy</h1>
+                    <p class="text-sm mt-1 leading-relaxed text-gray-700" id="hero-headline"></p>
+                    
+                    <p class="text-xs text-gray-500 mt-3 font-medium">
+                        <span data-lang-key="location">Egypt</span> &middot; 
+                        <a href="#contact" class="text-linkedin hover:underline font-bold" data-lang-key="contactInfoBtn">Contact Info</a>
+                    </p>
 
-    <section id="home" class="min-h-screen flex items-center py-16 sm:py-20 md:py-28 lg:pt-[calc(5rem+2rem)] lg:pb-28 px-4 sm:px-6 lg:px-8 overflow-hidden relative">
-        <div class="container mx-auto grid lg:grid-cols-2 gap-8 sm:gap-10 items-center">
-            <div class="text-center lg:text-right z-10" data-aos="fade-left">
-                <h1 class="text-4xl sm:text-5xl xl:text-7xl font-extrabold mb-4 sm:mb-6 leading-tight" data-lang-key="heroMainTitle">
-                    أحمد مكرم الصعيدي
-                </h1>
-                <h2 class="text-xl sm:text-2xl lg:text-3xl text-indigo-300 font-semibold mb-6 sm:mb-8 min-h-[2.5em] sm:min-h-[3em]" id="hero-subtitle">
-                    {محتوى سيتم كتابته آلياً}
-                </h2>
-                <p class="text-base sm:text-lg lg:text-xl text-slate-300 mb-8 sm:mb-10 max-w-md sm:max-w-lg mx-auto lg:mx-0" data-lang-key="heroDescription">
-                    أصنع تجارب رقمية مبتكرة تجمع بين الإبداع والوظائف العملية. استكشف أعمالي وتواصل معي لنبني شيئًا رائعًا معًا.
+                    <div class="mt-4 flex flex-wrap gap-2">
+                        <a href="#contact" class="btn-primary flex-1 text-center text-sm flex items-center justify-center" data-lang-key="openToWork">Open to work</a>
+                        <a href="cv.html" target="_blank" class="btn-outline flex-1 text-center text-sm flex items-center justify-center" data-lang-key="moreBtn">CV</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Skills Card (Sidebar) -->
+            <div class="li-card p-4 hidden lg:block sticky top-20">
+                <h3 class="font-bold mb-4 text-sm" data-lang-key="skillsTitle">Top Skills</h3>
+                <div class="flex flex-wrap gap-2" id="sidebar-skills">
+                    <!-- Skills injected by JS -->
+                </div>
+                <div class="border-t mt-4 pt-3 text-center">
+                    <a href="#about" class="text-sm text-gray-500 hover:text-black font-semibold" data-lang-key="showAllSkills">Show all skills <i class="fas fa-arrow-right mx-1"></i></a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Center Feed (Main Content) -->
+        <section class="lg:col-span-9" data-aos="fade-up" data-aos-delay="100">
+            
+            <!-- About Section -->
+            <div id="about" class="li-card p-6 sm:p-8">
+                <div class="flex justify-between items-start mb-4">
+                    <h2 class="text-xl font-bold" data-lang-key="aboutTitle">About</h2>
+                </div>
+                <p class="text-sm sm:text-base leading-relaxed text-gray-800 whitespace-pre-line" id="about-text">
+                    <!-- Text injected by JS -->
                 </p>
-                <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4">
-                    <a href="#projects" class="w-full sm:w-auto inline-flex items-center justify-center bg-gradient-to-r from-sky-500 to-indigo-500 hover:from-sky-600 hover:to-indigo-600 text-white font-bold py-3 px-6 sm:py-3.5 sm:px-8 rounded-lg text-base sm:text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105" data-lang-key="heroProjectsBtn">
-                        <span class="link-text">شاهد أعمالي</span> <i class="fas fa-briefcase text-sm sm:text-base ml-2 rtl:mr-2 rtl:ml-0"></i>
+            </div>
+
+            <!-- Experience Section -->
+            <div id="experience" class="li-card p-6 sm:p-8">
+                <h2 class="text-xl font-bold mb-6" data-lang-key="experienceTitle">Experience</h2>
+                <div id="experience-list" class="space-y-2">
+                    <!-- JS Injection -->
+                </div>
+            </div>
+
+            <!-- Projects Section -->
+            <div id="projects" class="li-card p-6 sm:p-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-bold" data-lang-key="projectsTitle">Featured Projects</h2>
+                    <a href="https://github.com/devahmed4965" target="_blank" class="text-linkedin font-semibold text-sm hover:underline">GitHub <i class="fas fa-external-link-alt ml-1"></i></a>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-4" id="projects-grid">
+                    <!-- JS Injection -->
+                </div>
+            </div>
+
+            <!-- Certificates Gallery (New Grid Layout) -->
+            <div id="certificates" class="li-card p-6 sm:p-8">
+                 <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-bold" data-lang-key="certificatesTitle">Licenses & Certifications</h2>
+                    <a href="certificates-gallery.html" class="btn-outline text-xs px-3 py-1" data-lang-key="showAllCerts">Show all</a>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4" id="certificates-grid">
+                     <!-- JS Injection -->
+                </div>
+            </div>
+
+            <!-- Comments Section (Supabase Integration) -->
+            <div id="comments" class="li-card p-6 sm:p-8">
+                <h2 class="text-xl font-bold mb-6" data-lang-key="commentsTitle">Recommendations & Comments</h2>
+                
+                <!-- Comment Form -->
+                <form id="comment-form" class="mb-8 bg-gray-50 p-4 rounded-lg border border-gray-200">
+                    <h3 class="text-sm font-bold text-gray-700 mb-3" data-lang-key="leaveComment">Leave a comment</h3>
+                    <div class="mb-3">
+                        <input type="text" id="comment-name" placeholder="Your Name" required class="w-full p-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition">
+                    </div>
+                    <div class="mb-3">
+                        <textarea id="comment-body" placeholder="Write your recommendation..." rows="3" required class="w-full p-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition"></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary text-xs px-4 py-2" data-lang-key="postCommentBtn">Post</button>
+                </form>
+            
+                <!-- Comments List -->
+                <div id="comments-list" class="space-y-4">
+                    <p class="text-gray-500 text-center text-sm">Loading comments...</p>
+                </div>
+            </div>
+
+            <!-- Voice Over Section -->
+             <div id="voice-work" class="li-card p-6 sm:p-8">
+                <h2 class="text-xl font-bold mb-6" data-lang-key="voiceWorkTitle">Voice Over Samples</h2>
+                <div class="grid md:grid-cols-2 gap-4" id="voice-grid">
+                    <!-- JS Injection -->
+                </div>
+            </div>
+
+            <!-- Contact Section -->
+            <div id="contact" class="li-card p-6 sm:p-8 bg-blue-50 border-none">
+                 <h2 class="text-xl font-bold mb-2" data-lang-key="contactTitle">Contact Me</h2>
+                 <p class="text-sm text-gray-600 mb-6" data-lang-key="contactSub">Feel free to reach out for collaborations or opportunities.</p>
+                 
+                 <div class="flex flex-wrap gap-4 sm:gap-8">
+                    <a href="mailto:dev.ahmed.alsaidy@gmail.com" class="flex items-center gap-2 text-gray-700 hover:text-linkedin font-medium">
+                        <i class="fas fa-envelope text-xl"></i> <span>Email Me</span>
                     </a>
-                     <a href="#contact" class="w-full sm:w-auto inline-flex items-center justify-center bg-transparent border-2 border-sky-400 text-sky-300 hover:bg-sky-400 hover:text-slate-900 font-bold py-3 px-6 sm:py-3.5 sm:px-8 rounded-lg text-base sm:text-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105" data-lang-key="heroContactBtn">
-                        <span class="link-text">تواصل معي</span> <i class="fas fa-paper-plane text-sm sm:text-base ml-2 rtl:mr-2 rtl:ml-0"></i>
+                    <a href="https://wa.me/+201006409514" target="_blank" class="flex items-center gap-2 text-gray-700 hover:text-green-600 font-medium">
+                        <i class="fab fa-whatsapp text-xl"></i> <span>WhatsApp</span>
                     </a>
-                </div>
+                    <a href="https://www.linkedin.com/in/ahmed-makram-835874264/" target="_blank" class="flex items-center gap-2 text-gray-700 hover:text-linkedin font-medium">
+                        <i class="fab fa-linkedin text-xl"></i> <span>LinkedIn</span>
+                    </a>
+                 </div>
             </div>
-            <div class="mt-10 sm:mt-12 lg:mt-0 lg:relative h-full flex items-center justify-center lg:justify-end" data-aos="fade-right" data-aos-delay="200">
-                 <div class="hero-image-wrapper">
-                    <div class="hero-image-frame frame1"></div>
-                    <div class="hero-image-frame frame2"></div>
-                    <div class="hero-image-frame frame3"></div>
-                    <img src="ahmed.png" alt="أحمد مكرم الصعيدي" class="hero-image" onerror="this.src='https://placehold.co/380x520/0f172a/e2e8f0?text=Ahmed+Makram&font=cairo'">
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <section id="about" class="py-12 sm:py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-black/40">
-        <div class="container mx-auto text-center">
-            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6" data-lang-key="aboutTitle" data-aos="fade-up"></h2>
-            <div data-aos="fade-up" data-aos-delay="100">
-                <div data-lang-section="ar">
-                    <h3 class="text-xl sm:text-2xl text-indigo-300 font-semibold mb-3 sm:mb-4" data-lang-key="aboutSubtitleAr"></h3>
-                    <p class="text-sm sm:text-lg text-slate-300 mb-4 sm:mb-6 max-w-xl sm:max-w-3xl mx-auto leading-relaxed" data-lang-key="aboutDescAr"></p>
-                    <p class="text-sm sm:text-lg text-slate-300 mb-8 sm:mb-10 max-w-xl sm:max-w-3xl mx-auto leading-relaxed" data-lang-key="aboutWorkAr"></p>
-                </div>
-                <div data-lang-section="en" class="hidden">
-                    <h3 class="text-xl sm:text-2xl text-indigo-300 font-semibold mb-3 sm:mb-4" data-lang-key="aboutSubtitleEn"></h3>
-                    <p class="text-sm sm:text-lg text-slate-300 mb-4 sm:mb-6 max-w-xl sm:max-w-3xl mx-auto leading-relaxed" data-lang-key="aboutDescEn"></p>
-                    <p class="text-sm sm:text-lg text-slate-300 mb-8 sm:mb-10 max-w-xl sm:max-w-3xl mx-auto leading-relaxed" data-lang-key="aboutWorkEn"></p>
-                </div>
-                <a href="cv.html" target="_blank" class="inline-flex items-center justify-center bg-sky-500 hover:bg-sky-600 text-white font-semibold py-2.5 px-5 sm:py-3 sm:px-7 rounded-lg text-sm sm:text-md shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105" data-lang-key="downloadCV">
-                   <span class="link-text"></span> <i class="fas fa-download text-xs sm:text-sm ml-2 rtl:mr-2 rtl:ml-0"></i>
-                </a>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="skills" class="py-12 sm:py-16 md:py-24 px-4 sm:px-6 lg:px-8">
-        <div class="container mx-auto text-center">
-            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-12 sm:mb-16" data-lang-key="skillsTitle" data-aos="fade-up"></h2>
-            <div id="skills-grid-container" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6 md:gap-8">
-                </div>
-        </div>
-    </section>
+    </main>
 
-    <section id="projects" class="py-12 sm:py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-black/40">
-        <div class="container mx-auto text-center">
-            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-12 sm:mb-16" data-lang-key="projectsTitle" data-aos="fade-up"></h2>
-            <div id="projects-grid-container" class="grid md:grid-cols-2 gap-6 sm:gap-8 md:gap-10">
-                </div>
-        </div>
-    </section>
-
-    <section id="experience" class="py-12 sm:py-16 md:py-24 px-4 sm:px-6 lg:px-8">
-        <div class="container mx-auto">
-            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-12 sm:mb-16 text-center" data-lang-key="experienceTitle" data-aos="fade-up"></h2>
-            <div class="max-w-md sm:max-w-xl md:max-w-3xl mx-auto">
-                <ul id="experience-timeline" class="timeline">
-                    </ul>
-            </div>
-        </div>
-    </section>
-
-    <section id="certificates-preview" class="py-12 sm:py-16 md:py-24 bg-black/40">
-        <div class="container mx-auto text-center">
-            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-8 sm:mb-10" data-lang-key="certificatesTitle" data-aos="fade-up"></h2>
-            <div class="marquee-container overflow-hidden relative w-full" data-aos="fade-up" data-aos-delay="100">
-                <div class="marquee-track flex">
-                    </div>
-            </div>
-            <div class="mt-10 sm:mt-12" data-aos="fade-up" data-aos-delay="200">
-                <a href="certificates-gallery.html"
-                   class="inline-flex items-center justify-center bg-sky-500 hover:bg-sky-600 text-white font-semibold py-2.5 px-6 sm:py-3 sm:px-7 rounded-lg text-sm sm:text-md shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105"
-                   data-lang-key="viewAllCertificatesBtn">
-                   <span class="link-text"></span> <i class="fas fa-arrow-right text-xs sm:text-sm ml-2 rtl:mr-2 rtl:ml-0"></i>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <section id="voice-work" class="py-12 sm:py-16 md:py-24 px-4 sm:px-6 lg:px-8">
-        <div class="container mx-auto text-center">
-            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-12 sm:mb-16" data-lang-key="portfolioSectionTitle" data-aos="fade-up"></h2>
-            <div id="voice-works-grid-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 md:gap-10">
-                </div>
-        </div>
-    </section>
-
-    <section id="contact" class="py-12 sm:py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-black/40">
-        <div class="container mx-auto text-center">
-            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6" data-lang-key="contactTitle" data-aos="fade-up"></h2>
-            <p class="text-sm sm:text-lg text-slate-300 mb-8 sm:mb-10 max-w-md sm:max-w-xl mx-auto" data-aos="fade-up" data-aos-delay="100" data-lang-key="contactSubtext"></p>
-            <form id="contact-form" action="https://formspree.io/f/xdkewwqa" method="POST" class="max-w-lg sm:max-w-2xl mx-auto text-right rtl:text-left needs-validation" novalidate data-aos="fade-up" data-aos-delay="200">
-                <div class="grid sm:grid-cols-2 gap-4 sm:gap-6 mb-4 sm:mb-6">
-                    <div>
-                        <label for="form_name" class="block text-xs sm:text-sm font-medium text-slate-300 mb-1 text-right rtl:text-left" data-lang-key="formNameLabel"></label>
-                        <input type="text" name="name" id="form_name" required class="w-full bg-slate-700/50 border border-slate-600 text-slate-100 rounded-lg p-2.5 sm:p-3 text-sm sm:text-base focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition-all" placeholder="مثال: أحمد محمد">
-                        <div class="text-red-400 text-xs mt-1 invalid-feedback hidden text-right rtl:text-left" data-lang-key="formErrorName"></div>
-                    </div>
-                    <div>
-                        <label for="form_email" class="block text-xs sm:text-sm font-medium text-slate-300 mb-1 text-right rtl:text-left" data-lang-key="formEmailLabel"></label>
-                        <input type="email" name="email" id="form_email" required class="w-full bg-slate-700/50 border border-slate-600 text-slate-100 rounded-lg p-2.5 sm:p-3 text-sm sm:text-base focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition-all" placeholder="example@mail.com">
-                        <div class="text-red-400 text-xs mt-1 invalid-feedback hidden text-right rtl:text-left" data-lang-key="formErrorEmail"></div>
-                    </div>
-                </div>
-                <div class="mb-4 sm:mb-6">
-                    <label for="form_message" class="block text-xs sm:text-sm font-medium text-slate-300 mb-1 text-right rtl:text-left" data-lang-key="formMessageLabel"></label>
-                    <textarea name="message" id="form_message" rows="4" sm:rows="5" required class="w-full bg-slate-700/50 border border-slate-600 text-slate-100 rounded-lg p-2.5 sm:p-3 text-sm sm:text-base focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition-all" placeholder="اكتب رسالتك هنا..."></textarea>
-                    <div class="text-red-400 text-xs mt-1 invalid-feedback hidden text-right rtl:text-left" data-lang-key="formErrorMessage"></div>
-                </div>
-                <button type="submit" class="w-full sm:w-auto inline-flex items-center justify-center bg-gradient-to-r from-sky-500 to-indigo-500 hover:from-sky-600 hover:to-indigo-600 text-white font-bold py-3 px-8 sm:py-3.5 sm:px-10 rounded-lg text-base sm:text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105" data-lang-key="formSubmitBtn">
-                    <span class="link-text"></span> <i class="fas fa-paper-plane text-sm sm:text-base ml-2 rtl:mr-2 rtl:ml-0"></i>
-                </button>
-                <p id="form-status" class="mt-3 sm:mt-4 text-xs sm:text-sm"></p>
-            </form>
-            <div class="mt-10 sm:mt-12" data-aos="fade-up" data-aos-delay="300">
-                <p class="text-slate-400 mb-3 sm:mb-4 text-sm sm:text-base" data-lang-key="contactOr"></p>
-                <div class="flex justify-center space-x-4 sm:space-x-6 rtl:space-x-reverse rtl:sm:space-x-reverse">
-                    <a href="mailto:dev.ahmed.alsaidy@gmail.com" aria-label="Email Ahmed Makram" class="text-slate-400 hover:text-sky-400 transition-colors text-2xl sm:text-3xl"><i class="fas fa-envelope"></i></a>
-                    <a href="https://www.linkedin.com/in/ahmed-makram-835874264/" aria-label="Ahmed Makram LinkedIn" target="_blank" class="text-slate-400 hover:text-sky-400 transition-colors text-2xl sm:text-3xl"><i class="fab fa-linkedin"></i></a>
-                    <a href="https://github.com/devahmed4965" aria-label="Ahmed Makram Github" target="_blank" class="text-slate-400 hover:text-sky-400 transition-colors text-2xl sm:text-3xl"><i class="fab fa-github"></i></a>
-                    <a href="https://wa.me/+201006409514" aria-label="Ahmed Makram WhatsApp" target="_blank" class="text-slate-400 hover:text-sky-400 transition-colors text-2xl sm:text-3xl"><i class="fab fa-whatsapp"></i></a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer class="py-8 sm:py-10 px-4 sm:px-6 lg:px-8 text-center bg-black/60 border-t border-slate-700/60">
-        <div class="container mx-auto">
-            <a href="#home" class="text-2xl sm:text-3xl font-bold gradient-text mb-4 sm:mb-5 inline-block" data-lang-key="navBrand"></a>
-            <nav class="flex justify-center flex-wrap gap-x-3 sm:gap-x-5 gap-y-2 mb-4 sm:mb-6 text-xs sm:text-sm">
-                <a href="#home" class="hover:text-sky-400 transition-colors" data-lang-key="navHome"></a>
-                <a href="#about" class="hover:text-sky-400 transition-colors" data-lang-key="navAbout"></a>
-                <a href="#skills" class="hover:text-sky-400 transition-colors" data-lang-key="navSkills"></a>
-                <a href="#projects" class="hover:text-sky-400 transition-colors" data-lang-key="navProjects"></a>
-                <a href="#experience" class="hover:text-sky-400 transition-colors" data-lang-key="navExperience"></a>
-                <a href="#certificates-preview" class="hover:text-sky-400 transition-colors" data-lang-key="navCertificates"></a>
-                <a href="#voice-work" class="hover:text-sky-400 transition-colors" data-lang-key="navPortfolio"></a>
-                <a href="#contact" class="hover:text-sky-400 transition-colors" data-lang-key="navContactShort"></a>
-            </nav>
-            <p class="text-xs sm:text-sm text-slate-500" data-lang-key="footerText"></p>
+    <!-- Footer -->
+    <footer class="bg-white border-t py-6 mt-8">
+        <div class="container mx-auto text-center px-4">
+            <img src="ahmed.png" class="w-8 h-8 rounded-full mx-auto mb-2 border border-gray-200">
+            <p class="text-sm text-gray-600 font-bold mb-2">Ahmed Makram El-Saeedy</p>
+            <p class="text-xs text-gray-500" data-lang-key="footerRights">&copy; 2025. All rights reserved.</p>
         </div>
     </footer>
 
+    <!-- Scripts -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        const skillsData = [
-            {aos: "50", icon: "fab fa-html5", color: "text-orange-500", key: "skillHTML", name: "HTML5"},
-            {aos: "100", icon: "fab fa-css3-alt", color: "text-blue-500", key: "skillCSS", name: "CSS3"},
-            {aos: "150", icon: "fab fa-js-square", color: "text-yellow-400", key: "skillJS", name: "JavaScript"},
-            {aos: "200", icon: "fab fa-bootstrap", color: "text-purple-500", key: "skillBootstrap", name: "Bootstrap"},
-            {aos: "250", icon: "fab fa-python", color: "text-sky-400", key: "skillPython", name: "Python"},
-            {aos: "300", icon: "fas fa-database", color: "text-blue-400", key: "skillPostgres", name: "PostgreSQL"},
-            {aos: "350", icon: "fab fa-node-js", color: "text-green-500", key: "skillNode", name: "Node.js"},
-            {aos: "400", icon: "fas fa-leaf", color: "text-green-400", key: "skillMongo", name: "MongoDB" },
-            {aos: "450", icon: "fas fa-feather-alt", color: "text-teal-400", key: "skillDjango", name: "Django"},
-            {aos: "500", icon: "fas fa-palette", color: "text-pink-400", key: "skillGraphicDesign", name: "تصميم جرافيك"},
-            {aos: "550", icon: "fas fa-microphone-alt", color: "text-red-400", key: "skillVoiceOver", name: "تعليق صوتي"}
+        // --- Supabase Config ---
+        const supabaseUrl = 'https://puvvuyeqiwsbeilamvnh.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB1dnZ1eWVxaXdzYmVpbGFtdm5oIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQzNjQ2NDgsImV4cCI6MjA3OTk0MDY0OH0.RlxcHihuCcJ60H0T030kcimkeHmqLNYGEtpxnRkaKmg';
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        // --- Data Objects ---
+        const skills = ["HTML5", "CSS3", "JavaScript", "Python", "Django", "PostgreSQL", "Node.js", "MongoDB", "Graphic Design", "Voice Over", "Bootstrap"];
+        
+        // Full Experience Data - RESTORED AND UPDATED
+        const experience = [
+            { icon: "fas fa-user-tie", roleKey: "expMandobiRole", companyKey: "expMandobiComp", dateKey: "expMandobiDate", descKey: "expMandobiDesc", color: "text-blue-700" },
+            { icon: "fas fa-undo", roleKey: "expAliensMgrRole", companyKey: "expAliensMgrComp", dateKey: "expAliensMgrDate", descKey: "expAliensMgrDesc", color: "text-red-600" },
+            { icon: "fas fa-shipping-fast", roleKey: "expAliensOpsRole", companyKey: "expAliensOpsComp", dateKey: "expAliensOpsDate", descKey: "expAliensOpsDesc", color: "text-orange-500" },
+            { icon: "fas fa-code", roleKey: "expGdscRole", companyKey: "expGdscComp", dateKey: "expGdscDate", descKey: "expGdscDesc", color: "text-blue-600" },
+            { icon: "fas fa-hand-holding-heart", roleKey: "expLifeMakersRole", companyKey: "expLifeMakersComp", dateKey: "expLifeMakersDate", descKey: "expLifeMakersDesc", color: "text-green-600" },
+            { icon: "fas fa-bullhorn", roleKey: "expEsscRole", companyKey: "expEsscComp", dateKey: "expEsscDate", descKey: "expEsscDesc", color: "text-teal-600" },
+            { icon: "fas fa-eye", roleKey: "expVisionRole", companyKey: "expVisionComp", dateKey: "expVisionDate", descKey: "expVisionDesc", color: "text-purple-600" },
+            { icon: "fas fa-hands-helping", roleKey: "expResalaRole", companyKey: "expResalaComp", dateKey: "expResalaDate", descKey: "expResalaDesc", color: "text-yellow-600" },
+            { icon: "fas fa-laptop-code", roleKey: "expProgrammingRole", companyKey: "expProgrammingComp", dateKey: "expProgrammingDate", descKey: "expProgrammingDesc", color: "text-gray-700" },
+            { icon: "fas fa-graduation-cap", roleKey: "expMicrobiologyRole", companyKey: "expMicrobiologyComp", dateKey: "expMicrobiologyDate", descKey: "expMicrobiologyDesc", color: "text-indigo-600" }
         ];
 
-        const projectsData = [
-            { delay: "100", videoPoster: "https://placehold.co/600x338/1A2E40/E0E7FF?text=Project+Video+1&font=cairo", videoSrc: "project2.mp4", titleKey: "project1Title", descKey: "project1Desc", link: "https://aliens-express.netlify.app/", tags: ["HTML", "CSS", "JS", "PHP"] },
-            { delay: "200", videoPoster: "https://placehold.co/600x338/1A2E40/E0E7FF?text=Project+Video+2&font=cairo", videoSrc: "project (2).mp4", titleKey: "project2Title", descKey: "project2Desc", link: "#", tags: ["PHP", "Laravel", "MySQL"] },
-            { delay: "300", videoPoster: "https://placehold.co/600x338/1A2E40/E0E7FF?text=Project+Video+3&font=cairo", videoSrc: "project3.mp4", titleKey: "project3Title", descKey: "project3Desc", link: "#", tags: ["Java", "Android", "SQLite"] },
-            { delay: "400", videoPoster: "https://placehold.co/600x338/1A2E40/E0E7FF?text=Project+Video+4&font=cairo", videoSrc: "project (4).mp4", titleKey: "project4Title", descKey: "project4Desc", link: "https://www.microbiology-damanhour.free.nf/", tags: ["PHP", "Laravel", "JavaScript"] },
-            { delay: "500", videoPoster: "snaa.png", videoSrc: "snaa.png", titleKey: "projectSanaTitle", descKey: "projectSanaDesc", link: "#", tags: ["Educational Platform", "Islamic Studies", "Arabic Language"] }
-
+        // Full Projects Data - RESTORED AND FIXED VIDEOS
+        const projects = [
+            { img: "project1.png", titleKey: "project1Title", descKey: "project1Desc", link: "https://aliens-express.netlify.app/", isVideo: false },
+            { img: "placeholder", titleKey: "project2Title", descKey: "project2Desc", link: "#", isVideo: true, videoSrc: "project (2).mp4" },
+            { img: "placeholder", titleKey: "project3Title", descKey: "project3Desc", link: "#", isVideo: true, videoSrc: "project3.mp4" },
+            { img: "placeholder", titleKey: "project4Title", descKey: "project4Desc", link: "https://www.microbiology-damanhour.free.nf/", isVideo: true, videoSrc: "project (4).mp4" },
+            { img: "snaa.png", titleKey: "projectSanaTitle", descKey: "projectSanaDesc", link: "#", isVideo: false }
         ];
 
-        const certificatesData = [ // Used for marquee on index.html
-            // Updated defaultTitles to English, titleKeys remain for translation
-            {img: "images/certificate (1).jpg", titleKey: "cert1Title", defaultTitle: "Intro to Python Programming (Edraak)"},
-            {img: "images/certificate (3).jpg", titleKey: "certMimoJsTitle", defaultTitle: "JavaScript (Mimo)"},
-            {img: "images/certificate (5).jpg", titleKey: "certUdemyPythonTitle", defaultTitle: "Python for Beginners (Udemy)"},
-            {img: "images/certificate (9).jpg", titleKey: "certMaarefPythonAppTitle", defaultTitle: "Python Applications (Maaref)"},
-            {img: "images/certificate (10).jpg", titleKey: "certM3aarfPythonAppTitle", defaultTitle: "Python Applications (M3aarf)"},
-            {img: "images/certificate (11).jpg", titleKey: "certMimoPythonTitle", defaultTitle: "Python (Mimo)"},
-            {img: "images/certificate (12).jpg", titleKey: "certMimoGamesTitle", defaultTitle: "Programming for Games C# (Mimo)"},
-            {img: "images/certificate (14).jpg", titleKey: "certCourseraPythonTitle", defaultTitle: "Crash Course on Python (Google)"},
-            {img: "images/certificate (1).jpg", titleKey: "certEdraakPythonIntro2Title", defaultTitle: "Intro to Python Programming (Edraak)"}, // Assuming this corresponds to page 10 of PDF
-            {img: "images/certificate (16).jpg", titleKey: "certITIDevelopingMobileTitle", defaultTitle: "Developing Android Apps (ITI)"}, // Assuming this corresponds to page 11 of PDF
-            {img: "images/certificate (17).jpg", titleKey: "certEYouthSDGsTitle", defaultTitle: "SDGs Awareness (EYouth)"} // Assuming this corresponds to page 12 of PDF
+        const certificates = [
+            "images/certificate (1).jpg", "images/certificate (3).jpg", "images/certificate (5).jpg", "images/certificate (9).jpg",
+            "images/certificate (11).jpg", "images/certificate (12).jpg", "images/certificate (14).jpg", "images/certificate (16).jpg"
         ];
 
-
-        const voiceWorksData = [
-            { delay: "100", img: "podcast.png", titleKey: "podcast1Title", descKey: "podcast1Desc", audioSrc: "audio/project (1).mp3" },
-            { delay: "200", img: "podcast1.png", titleKey: "podcast2Title", descKey: "podcast2Desc", audioSrc: "audio/project (3).mp3" },
-            { delay: "300", img: "podcast2.png", titleKey: "podcast3Title", descKey: "podcast3Desc", audioSrc: "audio/project (5).mp3" }
+        const voiceWorks = [
+            { img: "podcast.png", titleKey: "podcast1Title", audio: "audio/project (1).mp3" },
+            { img: "podcast1.png", titleKey: "podcast2Title", audio: "audio/project (3).mp3" },
+            { img: "podcast2.png", titleKey: "podcast3Title", audio: "audio/project (5).mp3" }
         ];
-
-        const experienceTimelineData = [
-            { aos: "fade-right", icon: "fas fa-briefcase", dateKey: "expAliensDate", titleKey: "expAliensTitle", descKey: "expAliensDesc" },
-            { aos: "fade-left", icon: "fas fa-code", dateKey: "expGdscDate", titleKey: "expGdscTitle", descKey: "expGdscDesc" },
-            { aos: "fade-right", icon: "fas fa-users", dateKey: "expLifeMakersDate", titleKey: "expLifeMakersTitle", descKey: "expLifeMakersDesc" },
-            { aos: "fade-left", icon: "fas fa-bullhorn", dateKey: "expEsscDate", titleKey: "expEsscTitle", descKey: "expEsscDesc" },
-            { aos: "fade-right", icon: "fas fa-eye", dateKey: "expVisionDate", titleKey: "expVisionTitle", descKey: "expVisionDesc" },
-            { aos: "fade-left", icon: "fas fa-hands-helping", dateKey: "expResalaDate", titleKey: "expResalaTitle", descKey: "expResalaDesc" },
-            { aos: "fade-right", icon: "fas fa-laptop-code", dateKey: "expProgrammingDate", titleKey: "expProgrammingTitle", descKey: "expProgrammingDesc" },
-            { aos: "fade-left", icon: "fas fa-graduation-cap", dateKey: "expMicrobiologyDate", titleKey: "expMicrobiologyTitle", descKey: "expMicrobiologyDesc" },
-        ];
-
 
         const translations = {
             ar: {
-                portfolioTitle: "ملفي الشخصي | أحمد مكرم",
-                navBrand: "أحمد مكرم",
-                navHome: "الرئيسية",
-                navAbout: "عني",
-                navSkills: "مهاراتي",
-                navProjects: "مشاريعي",
-                navExperience: "خبراتي",
-                navCertificates: "شهاداتي",
-                navPortfolio: "أعمالي الصوتية",
-                navContact: "اتصل بنا",
-                navContactShort: "تواصل",
-                heroMainTitle: "أحمد مكرم الصعيدي",
-                heroSubtitleContent: "مطور ويب | مصمم جرافيك | معلق صوتي",
-                heroDescription: "أصنع تجارب رقمية مبتكرة تجمع بين الإبداع والوظائف العملية. استكشف أعمالي وتواصل معي لنبني شيئًا رائعًا معًا.",
-                heroContactBtn: "تواصل معي",
-                heroProjectsBtn: "شاهد أعمالي",
-                downloadCV: "تحميل السيرة الذاتية",
+                portfolioTitle: "أحمد مكرم | مؤسس Mandobi",
+                searchPlaceholder: "بحث...",
+                navHome: "الرئيسية", navAbout: "عني", navProjects: "المشاريع", navCertificates: "الشهادات", navComments: "التعليقات",
+                heroName: "أحمد مكرم الصعيدي",
+                heroHeadline: "مؤسس Mandobi | مطور Full-Stack | دمج العلم والمنطق والتصميم لتجارب رقمية سلسة | عضو في Google DSC",
+                location: "دمنهور، مصر",
+                contactInfoBtn: "معلومات الاتصال",
+                openToWork: "متاح للعمل",
+                moreBtn: "السيرة الذاتية",
+                skillsTitle: "أبرز المهارات",
+                showAllSkills: "عرض كل المهارات",
                 aboutTitle: "نبذة عني",
-                aboutSubtitleAr: "شغوف بالعلم والتكنولوجيا",
-                aboutDescAr: "أنا أحمد مكرم الصعيدي، طالب في قسم الميكروبيولوجي بكلية العلوم، جامعة دمنهور (2022 - 2026). أمتلك شغفًا كبيرًا بتطوير الويب وتصميم الواجهات، وأسعى دائمًا لتعلم أحدث التقنيات وتطبيقها في مشاريع مبتكرة.",
-                aboutWorkAr: "أعمل حاليًا في شركة \"Aliens Express\" كـ Shipping Operation، وأيضًا كـ Front End Developer لدى GDSC Kafr El Sheikh University. بالإضافة إلى ذلك، أنا متطوع في مؤسسة صناع الحياة الخيرية منذ عام 2023، وعضو إعلامي في ESSC و Vision Team، ومتطوع في جمعية رسالة.",
-                skillsTitle: "مهاراتي التقنية",
-                skillHTML: "HTML5", skillCSS: "CSS3", skillJS: "JavaScript", skillBootstrap: "Bootstrap", skillPython: "Python",
-                skillPostgres: "PostgreSQL", skillNode: "Node.js", skillMongo: "MongoDB", skillDjango: "Django",
-                skillGraphicDesign: "تصميم جرافيك", skillVoiceOver: "تعليق صوتي",
-                projectsTitle: "مشاريعي المميزة",
-                project1Title: "نظام تتبع شحنات متكامل", project1Desc: "موقع ويب لشركة شحن مرتبط بنظام تتبع للشحنات، يوفر واجهات للعملاء والموظفين.",
-                project2Title: "إدارة مرتجعات المناديب", project2Desc: "سيستم متكامل لإدارة شحنات المناديب والمرتجعات لشركة شحن، يسهل عمليات التتبع والمحاسبة.",
-                project3Title: "نظام إدارة محلات بقالة", project3Desc: "تطبيق لإدارة محلات البقالة يشمل المخزون، المبيعات، والتقارير.",
-                project4Title: "بوابة قسم الميكروبيولوجي", project4Desc: "منصة بورتال لقسم ميكروبيولوجي لرفع المواد العلمية من قبل الدكاترة وتسهيل وصول الطلاب إليها.",
-                projectLinkBtn: "رابط المشروع",
-                projectSanaTitle: "منصة سنا الأكاديمية", projectSanaDesc: "منصة تعليمية تهدف إلى تعليم غير المسلمين مبادئ الإسلام وعلوم الدين واللغة العربية والقرآن الكريم بطريقة مبسطة وتفاعلية.",
-                experienceTitle: "خبراتي العملية والأكاديمية",
-                expAliensDate: "نوفمبر 2024 - الآن", expAliensTitle: "Shipping Operation لدى Aliens Express", expAliensDesc: "مسؤول عن عمليات الشحن والتنسيق اللوجستي في شركة Aliens Express.",
-                expGdscDate: "مارس 2024 - الآن", expGdscTitle: "Front End Developer لدى GDSC Kafr El Sheikh University", expGdscDesc: "تطوير واجهات أمامية والمساهمة في مشاريع النادي الطلابي لمطوري جوجل.",
-                expLifeMakersDate: "مارس 2023 - الآن", expLifeMakersTitle: "متطوع لدى مؤسسة صناع الحياة البحيرة", expLifeMakersDesc: "المشاركة في الأنشطة والمبادرات الخيرية والتنموية التي تنظمها المؤسسة.",
-                expEsscDate: "فبراير 2023 - الآن", expEsscTitle: "Media Member لدى Egyptian Students of Science Colleges-ESSC", expEsscDesc: "عضو في الفريق الإعلامي، والمساهمة في تغطية فعاليات وأنشطة طلاب كليات العلوم.",
-                expVisionDate: "فبراير 2023 - الآن", expVisionTitle: "Media Member لدى Vision Team", expVisionDesc: "المشاركة في إنتاج المحتوى الإعلامي والتغطيات الخاصة بالفريق.",
-                expResalaDate: "يناير 2023 - الآن", expResalaTitle: "متطوع لدى جمعية رسالة فرع دمنهور", expResalaDesc: "المساهمة في الأنشطة الخيرية المختلفة التي تقدمها الجمعية للمجتمع.",
-                expProgrammingDate: "2017 - الآن", expProgrammingTitle: "خبرة في مجال البرمجة", expProgrammingDesc: "تطوير تطبيقات ويب متنوعة باستخدام تقنيات مختلفة، مع التركيز على تجربة المستخدم والأداء.",
-                expMicrobiologyDate: "2022 - 2026 (متوقع)", expMicrobiologyTitle: "دراسة بكالوريوس العلوم (قسم الميكروبيولوجي)", expMicrobiologyDesc: "طالب في كلية العلوم بجامعة دمنهور، متخصص في الميكروبيولوجي.",
-                certificatesTitle: "شهاداتي المعتمدة",
-                viewAllCertificatesBtn: "رؤية كل الشهادات",
-                allCertificatesTitle: "معرض الشهادات",
-                certViewBtn: "عرض الشهادة",
-                portfolioSectionTitle: "أعمالي الصوتية",
-                podcast1Title: "بودكاست: إدارة الوقت بفعالية", podcast1Desc: "نص صوتي لبودكاست يناقش استراتيجيات وتقنيات إدارة الوقت لتحقيق الإنتاجية.",
-                podcast2Title: "بودكاست: أسرار الكون والإيمان", podcast2Desc: "حلقة بودكاست تستكشف العلاقة بين عجائب الكون ومفهوم الإيمان.",
-                podcast3Title: "حديث عن الرسول صلى الله عليه وسلم", podcast3Desc: "تسجيل صوتي يتناول جوانب من سيرة النبي محمد صلى الله عليه وسلم وأخلاقه.",
+                // Translation of the new bio
+                aboutDesc: "مطور Full-Stack شغوف بالبناء في تقاطع التكنولوجيا والتصميم الإبداعي والتحليل العلمي.\n\nرحلتي في التكنولوجيا مدفوعة بمعتقد أساسي: أقوى الابتكارات تظهر عندما يلتقي البحث التحليلي بالحلول الإبداعية. خلفيتي الأكاديمية في علم الأحياء الدقيقة والكيمياء صقلت مهاراتي في حل المشكلات بشكل منهجي والاهتمام بالتفاصيل - وهي صفات أطبقها الآن في كتابة كود نظيف وفعال وقابل للتوسع.\n\nبصفتي عضوًا أساسيًا في نادي Google للطلبة المطورين (GDSC)، أساهم في مشاريع الويب والهاتف المحمول المؤثرة، محولًا التحديات المعقدة إلى تجارب بديهية تركز على المستخدم. أنا متخصص في بناء تطبيقات متكاملة باستخدام تقنيات حديثة مثل React و React Native و TypeScript. أتعلم باستمرار وأبحث عن فرص لاستغلال منظوري الفريد لبناء تكنولوجيا تحدث فرقًا.",
+                experienceTitle: "الخبرات",
+                projectsTitle: "أبرز المشاريع",
+                certificatesTitle: "التراخيص والشهادات",
+                showAllCerts: "عرض الكل",
+                voiceWorkTitle: "نماذج التعليق الصوتي",
                 contactTitle: "تواصل معي",
-                contactSubtext: "هل لديك مشروع أو فكرة تود مناقشتها؟ لا تتردد في التواصل.",
-                formNameLabel: "الاسم الكامل", formEmailLabel: "البريد الإلكتروني", formMessageLabel: "رسالتك",
-                formErrorName: "الاسم مطلوب.", formErrorEmail: "بريد إلكتروني صحيح مطلوب.", formErrorMessageGeneral: "الرجاء تعبئة جميع الحقول المطلوبة بشكل صحيح.", formErrorMessage: "الرجاء ترك رسالة.",
-                formSubmitBtn: "إرسال الرسالة",
-                contactOr: "أو تواصل مباشرة عبر:",
-                footerText: `© ${new Date().getFullYear()} أحمد مكرم الصعيدي. جميع الحقوق محفوظة.`
+                contactSub: "لا تتردد في التواصل لمناقشة المشاريع أو الفرص.",
+                footerRights: "© 2025. جميع الحقوق محفوظة.",
+                commentsTitle: "التوصيات والتعليقات",
+                leaveComment: "أترك تعليقاً",
+                postCommentBtn: "نشر",
+                
+                // Experience Keys (All Restored & Updated)
+                expMandobiRole: "مؤسس", expMandobiComp: "Mandobi · عمل خاص", expMandobiDate: "نوفمبر ٢٠٢٥ - الحالي", expMandobiDesc: "مصر",
+                expAliensMgrRole: "مدير قسم المرتجعات", expAliensMgrComp: "Aliens Express · دوام كامل", expAliensMgrDate: "أغسطس ٢٠٢٥ - نوفمبر ٢٠٢٥", expAliensMgrDesc: "القاهرة، مصر",
+                expAliensOpsRole: "عضو فريق العمليات", expAliensOpsComp: "Aliens Express · دوام كامل", expAliensOpsDate: "يوليو ٢٠٢٤ - يوليو ٢٠٢٥", expAliensOpsDesc: "أنشطة العمليات والدعم التشغيلي. القاهرة، مصر",
+                expGdscRole: "عضو الفريق الأساسي", expGdscComp: "Google Developer Student Clubs", expGdscDate: "مارس ٢٠٢٤ - الحالي", expGdscDesc: "تطوير واجهات المستخدم والمساهمة في الأنشطة التقنية.",
+                expLifeMakersRole: "متطوع", expLifeMakersComp: "مؤسسة صناع الحياة البحيرة", expLifeMakersDate: "مارس 2023 - الحالي", expLifeMakersDesc: "المشاركة في المبادرات التنموية والخيرية.",
+                expEsscRole: "عضو إعلامي", expEsscComp: "ESSC", expEsscDate: "فبراير 2023 - الحالي", expEsscDesc: "تغطية فعاليات وأنشطة طلاب كليات العلوم.",
+                expVisionRole: "عضو إعلامي", expVisionComp: "Vision Team", expVisionDate: "فبراير 2023 - الحالي", expVisionDesc: "إنتاج المحتوى الإعلامي.",
+                expResalaRole: "متطوع", expResalaComp: "جمعية رسالة", expResalaDate: "يناير 2023 - الحالي", expResalaDesc: "المساهمة في الأنشطة الخيرية.",
+                expProgrammingRole: "خبرة برمجية", expProgrammingComp: "عمل حر", expProgrammingDate: "2017 - الحالي", expProgrammingDesc: "تطوير تطبيقات الويب المتنوعة.",
+                expMicrobiologyRole: "طالب (بكالوريوس علوم)", expMicrobiologyComp: "جامعة دمنهور", expMicrobiologyDate: "2022 - 2026", expMicrobiologyDesc: "قسم الميكروبيولوجي.",
+
+                // Project Keys (Restored)
+                project1Title: "نظام تتبع Aliens Express", project1Desc: "موقع ويب لشركة شحن مع نظام تتبع متكامل للعملاء.",
+                project2Title: "إدارة مرتجعات المناديب", project2Desc: "سيستم متكامل لإدارة شحنات المناديب والمرتجعات.",
+                project3Title: "تطبيقات أندرويد (Java)", project3Desc: "مجموعة تطبيقات تم تطويرها باستخدام Java و Android Studio.",
+                project4Title: "بوابة الميكروبيولوجي", project4Desc: "منصة أكاديمية لرفع المحاضرات وتسهيل التواصل بين الطلاب.",
+                projectSanaTitle: "منصة سنا الأكاديمية", projectSanaDesc: "منصة تعليمية تفاعلية لعلوم الدين واللغة.",
+                
+                podcast1Title: "إدارة الوقت بفعالية", podcast2Title: "أسرار الكون والإيمان", podcast3Title: "حديث عن الرسول"
             },
             en: {
-                portfolioTitle: "My Portfolio | Ahmed Makram",
-                navBrand: "Ahmed Makram",
-                navHome: "Home",
-                navAbout: "About",
-                navSkills: "Skills",
-                navProjects: "Projects",
-                navExperience: "Experience",
-                navCertificates: "Certificates",
-                navPortfolio: "Voice Work",
-                navContact: "Contact Us",
-                navContactShort: "Contact",
-                heroMainTitle: "Ahmed Makram El-Saeedy",
-                heroSubtitleContent: "Web Developer | Graphic Designer | Voice Over Artist",
-                heroDescription: "Crafting innovative digital experiences that blend creativity with functionality. Explore my work and let's build something amazing together.",
-                heroContactBtn: "Contact Me",
-                heroProjectsBtn: "View My Work",
-                downloadCV: "Download CV",
-                aboutTitle: "About Me",
-                aboutSubtitleEn: "Passionate About Science and Technology",
-                aboutDescEn: "I am Ahmed Makram El-Saeedy, a student in the Microbiology Department, Faculty of Science, Damanhour University (2022 - 2026). I have a great passion for web development and UI design, always striving to learn the latest technologies and apply them in innovative projects.",
-                aboutWorkEn: "I am currently working at \"Aliens Express\" as a Shipping Operation, and also as a Front End Developer at GDSC Kafr El Sheikh University. Additionally, I have been a volunteer at the Life Makers Foundation since 2023, a media member at ESSC and Vision Team, and a volunteer at Resala Charity Organization.",
-                skillsTitle: "My Technical Skills",
-                skillHTML: "HTML5", skillCSS: "CSS3", skillJS: "JavaScript", skillBootstrap: "Bootstrap", skillPython: "Python",
-                skillPostgres: "PostgreSQL", skillNode: "Node.js", skillMongo: "MongoDB", skillDjango: "Django",
-                skillGraphicDesign: "Graphic Design", skillVoiceOver: "Voice Over",
+                portfolioTitle: "Ahmed Makram | Founder of Mandobi",
+                searchPlaceholder: "Search...",
+                navHome: "Home", navAbout: "About", navProjects: "Projects", navCertificates: "Certificates", navComments: "Comments",
+                heroName: "Ahmed Makram El-Saeedy",
+                heroHeadline: "Founder of Mandobi | Full-Stack Developer | Merging Science, Logic & Design into Seamless Digital Experiences | Google DSC Member",
+                location: "Damanhour, Egypt",
+                contactInfoBtn: "Contact Info",
+                openToWork: "Open to work",
+                moreBtn: "Resume",
+                skillsTitle: "Top Skills",
+                showAllSkills: "Show all skills",
+                aboutTitle: "About",
+                aboutDesc: "Full-Stack Developer with a passion for building at the intersection of technology, creative design, and scientific analysis.\n\nMy journey into technology is driven by a core belief: the most powerful innovations emerge when analytical inquiry meets creative solutions. My academic background in Microbiology and Chemistry has honed my skills in systematic problem-solving and attention to detail—qualities I now apply to writing clean, efficient, and scalable code.\n\nAs a core team member at the Google Developer Student Club (GDSC), I contribute to impactful web and mobile projects, transforming complex challenges into intuitive, user-centric experiences. I specialize in building end-to-end applications using modern technologies like React, React Native, and TypeScript. I am continuously learning and seeking opportunities to leverage my unique perspective to build technology that makes a difference.",
+                experienceTitle: "Experience",
                 projectsTitle: "Featured Projects",
-                project1Title: "Integrated Shipment Tracking System", project1Desc: "A web application for a shipping company with a shipment tracking system, providing interfaces for customers and staff.",
-                project2Title: "Courier Returns Management System", project2Desc: "A comprehensive system for managing courier shipments and returns for a shipping company, facilitating tracking and accounting.",
-                project3Title: "Grocery Store Management System", project3Desc: "An application for managing grocery stores, including inventory, sales, and reporting.",
-                project4Title: "Microbiology Department Portal", project4Desc: "A portal platform for the Microbiology department for professors to upload scientific materials and for students to access them easily.",
-                projectLinkBtn: "Project Link",
-                projectSanaTitle: "Sana Academic Platform", projectSanaDesc: "An educational platform aimed at teaching non-Muslims the principles of Islam, religious sciences, the Arabic language, and the Holy Quran in a simplified and interactive manner.",
-                experienceTitle: "My Experience & Academics",
-                expAliensDate: "November 2024 - Present", expAliensTitle: "Shipping Operation at Aliens Express", expAliensDesc: "Responsible for shipping operations and logistics coordination at Aliens Express.",
-                expGdscDate: "March 2024 - Present", expGdscTitle: "Front End Developer at GDSC Kafr El Sheikh University", expGdscDesc: "Developing front-end interfaces and contributing to projects for the Google Developer Student Club.",
-                expLifeMakersDate: "March 2023 - Present", expLifeMakersTitle: "Volunteer at Life Makers Foundation - Beheira", expLifeMakersDesc: "Participating in charitable and developmental activities and initiatives organized by the foundation.",
-                expEsscDate: "February 2023 - Present", expEsscTitle: "Media Member at Egyptian Students of Science Colleges-ESSC", expEsscDesc: "Member of the media team, contributing to the coverage of events and activities for science college students.",
-                expVisionDate: "February 2023 - Present", expVisionTitle: "Media Member at Vision Team", expVisionDesc: "Participating in media content production and event coverage for the team.",
-                expResalaDate: "January 2023 - Present", expResalaTitle: "Volunteer at Resala Charity Organization - Damanhour Branch", expResalaDesc: "Contributing to various charitable activities provided by the organization to the community.",
-                expProgrammingDate: "2017 - Present", expProgrammingTitle: "Programming Experience", expProgrammingDesc: "Developing diverse web applications using various technologies, focusing on user experience and performance.",
-                expMicrobiologyDate: "2022 - 2026 (Expected)", expMicrobiologyTitle: "B.Sc. in Science (Microbiology Department)", expMicrobiologyDesc: "Student at the Faculty of Science, Damanhour University, majoring in Microbiology.",
-                certificatesTitle: "My Certifications",
-                viewAllCertificatesBtn: "View All Certificates",
-                allCertificatesTitle: "Certificates Gallery",
-                certViewBtn: "View Certificate",
-                portfolioSectionTitle: "My Voice Work",
-                podcast1Title: "Podcast: Effective Time Management", podcast1Desc: "Voice-over for a podcast discussing time management strategies and techniques for productivity.",
-                podcast2Title: "Podcast: Secrets of the Universe and Faith", podcast2Desc: "A podcast episode exploring the relationship between the wonders of the universe and the concept of faith.",
-                podcast3Title: "A Talk about Prophet Muhammad (PBUH)", podcast3Desc: "An audio recording discussing aspects of the life and character of Prophet Muhammad (PBUH).",
+                certificatesTitle: "Licenses & Certifications",
+                showAllCerts: "Show all",
+                voiceWorkTitle: "Voice Over Samples",
                 contactTitle: "Contact Me",
-                contactSubtext: "Have a project or idea you'd like to discuss? Feel free to reach out.",
-                formNameLabel: "Full Name", formEmailLabel: "Email Address", formMessageLabel: "Your Message",
-                formErrorName: "Name is required.", formErrorEmail: "A valid email is required.", formErrorMessageGeneral: "Please fill all required fields correctly.", formErrorMessage: "Please leave a message.",
-                formSubmitBtn: "Send Message",
-                contactOr: "Or contact directly via:",
-                footerText: `© ${new Date().getFullYear()} Ahmed Makram El-Saeedy. All rights reserved.`
+                contactSub: "Feel free to reach out for collaborations or opportunities.",
+                footerRights: "© 2025. All rights reserved.",
+                commentsTitle: "Recommendations & Comments",
+                leaveComment: "Leave a comment",
+                postCommentBtn: "Post",
+
+                // Experience Keys (All Restored & Updated)
+                expMandobiRole: "Founder", expMandobiComp: "Mandobi · Self-employed", expMandobiDate: "Nov 2025 - Present", expMandobiDesc: "Egypt",
+                expAliensMgrRole: "Returns Department Manager", expAliensMgrComp: "Aliens Express · Full-time", expAliensMgrDate: "Aug 2025 - Nov 2025", expAliensMgrDesc: "Cairo, Egypt",
+                expAliensOpsRole: "Operations Team Member", expAliensOpsComp: "Aliens Express · Full-time", expAliensOpsDate: "Jul 2024 - Jul 2025", expAliensOpsDesc: "Operations activities and Operational Support. Cairo, Egypt",
+                expGdscRole: "Core Team Member", expGdscComp: "Google Developer Student Clubs", expGdscDate: "Mar 2024 - Present", expGdscDesc: "Contributing to impactful web and mobile projects.",
+                expLifeMakersRole: "Volunteer", expLifeMakersComp: "Life Makers Foundation", expLifeMakersDate: "Mar 2023 - Present", expLifeMakersDesc: "Charity initiatives.",
+                expEsscRole: "Media Member", expEsscComp: "ESSC", expEsscDate: "Feb 2023 - Present", expEsscDesc: "Media coverage for science students.",
+                expVisionRole: "Media Member", expVisionComp: "Vision Team", expVisionDate: "Feb 2023 - Present", expVisionDesc: "Content creation.",
+                expResalaRole: "Volunteer", expResalaComp: "Resala Charity", expResalaDate: "Jan 2023 - Present", expResalaDesc: "Community service.",
+                expProgrammingRole: "Programming Experience", expProgrammingComp: "Freelance", expProgrammingDate: "2017 - Present", expProgrammingDesc: "Web application development.",
+                expMicrobiologyRole: "B.Sc. Student", expMicrobiologyComp: "Damanhour University", expMicrobiologyDate: "2022 - 2026", expMicrobiologyDesc: "Microbiology Department.",
+
+                // Project Keys (Restored)
+                project1Title: "Aliens Express Tracking", project1Desc: "Shipping company website with integrated tracking system.",
+                project2Title: "Courier Returns Management", project2Desc: "System for managing courier shipments and returns.",
+                project3Title: "Android Apps (Java)", project3Desc: "Various mobile applications developed using Java & Android Studio.",
+                project4Title: "Microbiology Portal", project4Desc: "Academic portal for material sharing and student access.",
+                projectSanaTitle: "Sana Academy", projectSanaDesc: "Interactive educational platform for Islamic studies.",
+                
+                podcast1Title: "Effective Time Management", podcast2Title: "Secrets of Universe & Faith", podcast3Title: "Prophet Muhammad (PBUH)"
             }
         };
 
-        let typeWriterInstance = null;
-
-        document.addEventListener('DOMContentLoaded', function() {
-            AOS.init({
-                duration: 800,
-                once: true,
-                offset: 100,
-                easing: 'ease-in-out-quad',
-            });
-
-            renderDynamicContent();
-            setupEventListeners();
-
-            const savedLang = localStorage.getItem('portfolioLanguage') || 'ar';
-            setLanguage(savedLang);
-        });
-
-        function renderDynamicContent() {
-            renderSkills();
-            renderProjects();
-            renderCertificateMarquee();
-            renderVoiceWorks();
-            renderExperience();
-        }
-
-        function renderSkills() {
-            const container = document.getElementById('skills-grid-container');
-            if (!container) return;
-            container.innerHTML = skillsData.map(skill => `
-                <div class="card-base p-4 sm:p-6 md:p-8 text-center" data-aos="zoom-in" data-aos-delay="${skill.aos}">
-                    <div class="${skill.color} mb-3 sm:mb-5 text-4xl sm:text-6xl"><i class="${skill.icon}"></i></div>
-                    <h3 class="text-base sm:text-xl font-semibold text-slate-100" data-lang-key="${skill.key}">${skill.name}</h3>
-                </div>
-            `).join('');
-        }
-
-        function renderProjects() {
-            const container = document.getElementById('projects-grid-container');
-            if (!container) return;
-            container.innerHTML = projectsData.map(project => `
-                <div class="card-base overflow-hidden group" data-aos="fade-up" data-aos-delay="${project.delay}">
-                    <div class="project-video-container bg-slate-800">
-                        <video poster="${project.videoPoster}" src="${project.videoSrc}" autoplay muted loop playsinline class="transition-transform duration-500 group-hover:scale-110" title="${translations[document.documentElement.lang || 'ar'][project.titleKey] || ''}">
-                            Your browser does not support the video tag.
-                        </video>
-                    </div>
-                    <div class="p-4 sm:p-6 text-right rtl:text-left">
-                        <h3 class="text-xl sm:text-2xl font-semibold mb-2 sm:mb-3 text-sky-300" data-lang-key="${project.titleKey}"></h3>
-                        <p class="text-xs sm:text-sm text-slate-300 mb-3 sm:mb-4 min-h-[2.5em] sm:min-h-[3em]" data-lang-key="${project.descKey}"></p>
-                        <div class="mb-3 sm:mb-4">
-                            ${project.tags.map(tag => `<span class="inline-block bg-slate-700 text-sky-300 text-xs font-semibold mr-1.5 rtl:ml-1.5 rtl:mr-0 mb-1.5 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full">${tag}</span>`).join('')}
-                        </div>
-                        <a href="${project.link}" target="_blank" class="inline-flex items-center text-indigo-300 hover:text-indigo-200 font-semibold transition-colors duration-300 text-sm sm:text-base" data-lang-key="projectLinkBtn">
-                            <span class="link-text"></span> <i class="fas fa-external-link-alt text-xs sm:text-sm ml-1.5 rtl:mr-1.5 rtl:ml-0"></i>
-                        </a>
-                    </div>
-                </div>
-            `).join('');
-        }
-        function renderExperience() {
-            const timelineUl = document.getElementById('experience-timeline'); // Use ID for specificity
-            if (!timelineUl) return;
-            timelineUl.innerHTML = '';
-
-            experienceTimelineData.forEach(item => {
-                const li = document.createElement('li');
-                li.className = 'timeline-item';
-                li.setAttribute('data-aos', item.aos);
-
-                li.innerHTML = `
-                    <div class="timeline-icon"><i class="${item.icon}"></i></div>
-                    <div class="timeline-content">
-                        <span class="date" data-lang-key="${item.dateKey}"></span>
-                        <h5 data-lang-key="${item.titleKey}"></h5>
-                        <p data-lang-key="${item.descKey}"></p>
-                    </div>
-                `;
-                timelineUl.appendChild(li);
-            });
-        }
-
-
-        function renderCertificateMarquee() {
-            const marqueeTrack = document.querySelector('#certificates-preview .marquee-track');
-            if (!marqueeTrack) return;
-
-            let itemsHTML = certificatesData.map(cert => `
-                <div class="marquee-item card-base p-0.5 overflow-hidden group">
-                    <img src="${cert.img}" alt="${cert.defaultTitle}" class="w-full certificate-image" onerror="this.onerror=null; this.src='https://placehold.co/260x160/1f2937/e0e7ff?text=Image+Error&font=cairo&font-size=12'">
-                    <div class="p-2 sm:p-3 text-center">
-                        <h3 class="text-xs sm:text-sm font-semibold text-slate-100 mb-1 truncate" data-lang-key="${cert.titleKey}">${cert.defaultTitle}</h3>
-                    </div>
-                </div>
-            `).join('');
-            marqueeTrack.innerHTML = itemsHTML + itemsHTML;
-        }
-
-
-        function renderVoiceWorks() {
-            const container = document.getElementById('voice-works-grid-container');
-            if (!container) return;
-            container.innerHTML = voiceWorksData.map(podcast => `
-                <div class="card-base overflow-hidden" data-aos="fade-up" data-aos-delay="${podcast.delay}">
-                    <img src="${podcast.img}" alt="${translations[document.documentElement.lang || 'ar'][podcast.titleKey] || ''}" class="w-full h-48 sm:h-56 object-cover" onerror="this.onerror=null; this.src='https://placehold.co/600x350/1f2937/e0e7ff?text=Image+Error&font=cairo'">
-                    <div class="p-4 sm:p-6 text-right rtl:text-left">
-                        <h3 class="text-lg sm:text-xl font-semibold mb-1.5 sm:mb-2 text-sky-300" data-lang-key="${podcast.titleKey}"></h3>
-                        <p class="text-xs sm:text-sm text-slate-300 mb-3 sm:mb-4 min-h-[2.5em] sm:min-h-[3em]" data-lang-key="${podcast.descKey}"></p>
-                        <audio controls class="w-full rounded-md mt-2 h-10 text-xs">
-                            <source src="${podcast.audioSrc}" type="audio/mpeg">
-                            Your browser does not support the audio element.
-                        </audio>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function setupEventListeners() {
-            const langToggle = document.getElementById('language-toggle');
-            const langToggleMobile = document.getElementById('language-toggle-mobile');
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-            const contactForm = document.getElementById('contact-form');
-
-            if (langToggle) langToggle.addEventListener('change', function () { setLanguage(this.value); });
-            if (langToggleMobile) langToggleMobile.addEventListener('change', function () { setLanguage(this.value); });
-
-            if (mobileMenuButton && mobileMenu) {
-                mobileMenuButton.addEventListener('click', () => {
-                    mobileMenu.classList.toggle('hidden');
-                    mobileMenuButton.querySelector('i').classList.toggle('fa-bars');
-                    mobileMenuButton.querySelector('i').classList.toggle('fa-times');
-                });
-            }
-
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const targetId = this.getAttribute('href');
-                    const targetElement = document.querySelector(targetId);
-                    if (targetElement) {
-                        const headerOffset = document.querySelector('header')?.offsetHeight || 60;
-                        const elementPosition = targetElement.getBoundingClientRect().top;
-                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-                        window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
-
-                        if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
-                            mobileMenu.classList.add('hidden');
-                            if(mobileMenuButton) {
-                                mobileMenuButton.querySelector('i').classList.remove('fa-times');
-                                mobileMenuButton.querySelector('i').classList.add('fa-bars');
-                            }
-                        }
-                    }
-                });
-            });
-
-            if (contactForm) contactForm.addEventListener('submit', handleContactFormSubmit);
-        }
-
-        function setLanguage(selectedLang) {
-            const langToggle = document.getElementById('language-toggle');
-            const langToggleMobile = document.getElementById('language-toggle-mobile');
-
-            if (langToggle) langToggle.value = selectedLang;
-            if (langToggleMobile) langToggleMobile.value = selectedLang;
-
-            updateTexts(selectedLang);
-            localStorage.setItem('portfolioLanguage', selectedLang);
-        }
-
-        function typeWriter(el, text, i = 0) {
-            if (!el) return;
-            if (typeWriterInstance) clearTimeout(typeWriterInstance);
-            if (i === 0) el.textContent = '';
-
-            if (i < text.length) {
-                el.textContent += text.charAt(i);
-                typeWriterInstance = setTimeout(() => typeWriter(el, text, i + 1), 90);
-            }
-        }
-
-        window.updateTexts = function(lang) {
-            const currentDir = lang === 'ar' ? 'rtl' : 'ltr';
-            document.documentElement.lang = lang;
-            document.documentElement.dir = currentDir;
-
+        // --- Render Functions ---
+        function renderContent(lang) {
+            const t = translations[lang];
+            
+            // Text Content Updates
             document.querySelectorAll('[data-lang-key]').forEach(el => {
                 const key = el.getAttribute('data-lang-key');
-                if (translations[lang] && translations[lang][key]) {
-                    let content = translations[lang][key];
-                    const iconElement = el.querySelector('i.fas, i.fab');
-                    const textSpan = el.querySelector('.link-text');
+                if (t[key]) el.textContent = t[key];
+            });
 
-                    if (textSpan && iconElement) {
-                        textSpan.textContent = content;
-                        iconElement.classList.remove('ml-2', 'mr-2', 'ml-1', 'mr-1', 'text-sm', 'text-xs');
-                        let marginClass = 'ml-2';
-                        let iconSizeClass = 'text-base';
+            document.getElementById('hero-headline').textContent = t.heroHeadline;
+            document.getElementById('about-text').textContent = t.aboutDesc;
 
-                        if (el.classList.contains('text-sm') || el.classList.contains('py-2.5') || el.classList.contains('py-1.5')) {
-                            marginClass = currentDir === 'rtl' ? 'mr-1' : 'ml-1';
-                            iconSizeClass = 'text-xs';
-                        } else if (el.classList.contains('text-base') || el.classList.contains('py-3')) {
-                             marginClass = currentDir === 'rtl' ? 'mr-2' : 'ml-2';
-                             iconSizeClass = 'text-sm';
+            // Render Skills
+            const skillsContainer = document.getElementById('sidebar-skills');
+            skillsContainer.innerHTML = skills.map(s => `<span class="skill-tag">${s}</span>`).join('');
+
+            // Render Experience
+            const expContainer = document.getElementById('experience-list');
+            expContainer.innerHTML = experience.map((exp, idx) => `
+                <div class="flex gap-4 mb-4 relative exp-item pb-4 last:pb-0 last:mb-0 last:before:hidden">
+                    <div class="w-12 h-12 flex-shrink-0 bg-gray-100 rounded-full flex items-center justify-center text-xl ${exp.color} exp-icon-container relative z-10">
+                        <i class="${exp.icon}"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-base text-gray-900">${t[exp.roleKey]}</h3>
+                        <p class="text-sm text-gray-700">${t[exp.companyKey]}</p>
+                        <p class="text-xs text-gray-500 mt-1">${t[exp.dateKey]}</p>
+                        <p class="text-sm text-gray-600 mt-2 leading-snug">${t[exp.descKey]}</p>
+                    </div>
+                </div>
+            `).join('');
+
+            // Render Projects
+            const projContainer = document.getElementById('projects-grid');
+            projContainer.innerHTML = projects.map(p => `
+                <div class="border rounded-lg overflow-hidden hover:shadow-md transition bg-white flex flex-col h-full">
+                    <div class="h-48 bg-gray-100 overflow-hidden relative group">
+                        ${p.isVideo 
+                            ? `<video src="${p.videoSrc}" autoplay muted loop playsinline class="w-full h-full object-cover"></video>`
+                            : `<img src="${p.img}" alt="Project" class="w-full h-full object-cover transition duration-500 group-hover:scale-110" onerror="this.src='https://placehold.co/600x400/0a66c2/ffffff?text=Project'">`
                         }
-                        iconElement.classList.add(marginClass, iconSizeClass);
-                        if (currentDir === 'rtl') { el.insertBefore(textSpan, iconElement); }
-                        else { el.insertBefore(iconElement, textSpan); }
+                    </div>
+                    <div class="p-4 flex flex-col flex-grow">
+                        <h3 class="font-bold text-md mb-1"><a href="${p.link}" target="_blank" class="hover:underline decoration-blue-600">${t[p.titleKey]}</a></h3>
+                        <p class="text-xs text-gray-600 mb-3 flex-grow">${t[p.descKey]}</p>
+                        <a href="${p.link}" target="_blank" class="btn-outline text-xs text-center block w-full py-1">View Project</a>
+                    </div>
+                </div>
+            `).join('');
 
-                    } else if (iconElement && (key === 'heroContactBtn' || key === 'heroProjectsBtn' || key === 'downloadCV' || key === 'formSubmitBtn' || key === 'viewAllCertificatesBtn')) {
-                         if (currentDir === 'rtl') { el.innerHTML = content + ' ' + iconElement.outerHTML; }
-                         else { el.innerHTML = iconElement.outerHTML + ' ' + content; }
-                    }
-                    else { el.innerHTML = content; }
-                }
-            });
+            // Render Certificates
+            const certContainer = document.getElementById('certificates-grid');
+            certContainer.innerHTML = certificates.slice(0, 8).map(img => `
+                <div class="border rounded-lg overflow-hidden bg-gray-50 aspect-[4/3] cursor-pointer hover:opacity-90 transition">
+                    <img src="${img}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/300x200/e0e0e0/666666?text=Cert'">
+                </div>
+            `).join('');
 
-            const formPlaceholders = {
-                form_name: lang === 'ar' ? 'مثال: أحمد محمد' : 'e.g., John Doe',
-                form_email: lang === 'ar' ? 'example@mail.com' : 'example@mail.com',
-                form_message: lang === 'ar' ? 'اكتب رسالتك هنا...' : 'Write your message here...'
-            };
-            for (const id in formPlaceholders) {
-                const input = document.getElementById(id);
-                if (input) input.placeholder = formPlaceholders[id];
-            }
-
-            const heroSubtitleEl = document.getElementById('hero-subtitle');
-            if (heroSubtitleEl && translations[lang] && translations[lang].heroSubtitleContent) {
-                typeWriter(heroSubtitleEl, translations[lang].heroSubtitleContent);
-            }
-
-            document.querySelectorAll('[data-lang-section]').forEach(section => {
-                section.classList.toggle('hidden', section.getAttribute('data-lang-section') !== lang);
-            });
-
-            const currentYearEl = document.getElementById('currentYear');
-            if (currentYearEl) currentYearEl.textContent = new Date().getFullYear();
-
-            const footerTextEl = document.querySelector('[data-lang-key="footerText"]');
-            if (footerTextEl && translations[lang] && translations[lang].footerText) {
-                footerTextEl.innerHTML = translations[lang].footerText.replace(`${new Date().getFullYear()}`, `<span id="currentYear">${new Date().getFullYear()}</span>`);
-            }
-            AOS.refresh();
+             // Render Voice Works
+            const voiceContainer = document.getElementById('voice-grid');
+            voiceContainer.innerHTML = voiceWorks.map(v => `
+                <div class="border rounded-lg p-3 flex gap-3 items-center hover:bg-gray-50 transition">
+                     <img src="${v.img}" class="w-16 h-16 rounded object-cover" onerror="this.src='https://placehold.co/100x100?text=Audio'">
+                     <div class="flex-grow">
+                        <h4 class="font-bold text-sm mb-1">${t[v.titleKey]}</h4>
+                        <audio controls class="w-full h-8 max-w-[200px]">
+                            <source src="${v.audio}" type="audio/mpeg">
+                        </audio>
+                     </div>
+                </div>
+            `).join('');
         }
 
-        async function handleContactFormSubmit(event) {
-            event.preventDefault();
-            const form = event.target;
-            const formStatus = document.getElementById('form-status');
-            const formData = new FormData(form);
-            const currentLang = document.documentElement.lang || 'ar';
-
-            let isValid = true;
-            form.querySelectorAll('[required]').forEach(input => {
-                const feedbackElement = input.parentElement.querySelector('.invalid-feedback');
-                let errorMessageKey = '';
-                if (!input.value.trim()) {
-                    isValid = false;
-                    errorMessageKey = input.id === 'form_name' ? 'formErrorName' : (input.id === 'form_message' ? 'formErrorMessage' : 'formErrorEmail');
-                } else if (input.type === 'email' && !/^\S+@\S+\.\S+$/.test(input.value)) {
-                    isValid = false;
-                    errorMessageKey = 'formErrorEmail';
-                }
-
-                if (!isValid && feedbackElement && errorMessageKey && translations[currentLang][errorMessageKey]) {
-                    input.classList.add('border-red-500');
-                    feedbackElement.textContent = translations[currentLang][errorMessageKey];
-                    feedbackElement.classList.remove('hidden');
-                } else if (feedbackElement) {
-                    input.classList.remove('border-red-500');
-                    feedbackElement.classList.add('hidden');
-                }
-            });
-
-            if (!isValid) {
-                formStatus.textContent = translations[currentLang].formErrorMessageGeneral || "Please fill all required fields correctly.";
-                formStatus.className = 'mt-4 text-xs sm:text-sm text-red-400';
+        // --- Supabase Functions ---
+        async function fetchComments() {
+            const { data, error } = await supabase
+                .from('comments')
+                .select('*')
+                .order('created_at', { ascending: false });
+            
+            const list = document.getElementById('comments-list');
+            
+            if (error) {
+                console.error('Error fetching comments:', error);
+                list.innerHTML = '<p class="text-red-500 text-center text-sm">Failed to load comments.</p>';
+                return;
+            }
+            
+            list.innerHTML = '';
+            if (!data || data.length === 0) {
+                list.innerHTML = '<p class="text-gray-500 text-center text-sm">No comments yet. Be the first!</p>';
                 return;
             }
 
-            formStatus.textContent = currentLang === 'ar' ? 'جاري الإرسال...' : 'Sending...';
-            formStatus.className = 'mt-4 text-xs sm:text-sm text-sky-300';
-
-            try {
-                const response = await fetch(form.action, {
-                    method: 'POST',
-                    body: formData,
-                    headers: { 'Accept': 'application/json' }
-                });
-                if (response.ok) {
-                    formStatus.textContent = currentLang === 'ar' ? 'شكراً لك! تم إرسال رسالتك بنجاح.' : 'Thank you! Your message has been sent successfully.';
-                    formStatus.className = 'mt-4 text-xs sm:text-sm text-green-400';
-                    form.reset();
-                    form.querySelectorAll('.invalid-feedback').forEach(el => el.classList.add('hidden'));
-                    form.querySelectorAll('[required]').forEach(input => input.classList.remove('border-red-500'));
-                } else {
-                    const data = await response.json();
-                    formStatus.textContent = (Object.hasOwn(data, 'errors') ? data["errors"].map(e => e["message"]).join(", ") : (currentLang === 'ar' ? 'عفواً! حدث خطأ.' : 'Oops! Error.'));
-                    formStatus.className = 'mt-4 text-xs sm:text-sm text-red-400';
-                }
-            } catch (error) {
-                formStatus.textContent = currentLang === 'ar' ? 'عفواً! حدث خطأ أثناء إرسال الرسالة.' : 'Oops! There was a problem submitting your form.';
-                formStatus.className = 'mt-4 text-xs sm:text-sm text-red-400';
-            }
+            data.forEach(comment => {
+                const div = document.createElement('div');
+                div.className = 'border-b border-gray-100 pb-3 mb-3 last:border-0 last:pb-0 last:mb-0';
+                
+                // Sanitization
+                const name = comment.name ? comment.name.replace(/</g, "&lt;").replace(/>/g, "&gt;") : 'Anonymous';
+                const content = comment.content ? comment.content.replace(/</g, "&lt;").replace(/>/g, "&gt;") : '';
+                const date = new Date(comment.created_at).toLocaleDateString();
+                
+                div.innerHTML = `
+                    <div class="flex items-start gap-3">
+                        <div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-500 font-bold text-sm">
+                            ${name.charAt(0).toUpperCase()}
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-baseline">
+                                <h4 class="font-bold text-sm text-gray-900">${name}</h4>
+                                <span class="text-xs text-gray-400">${date}</span>
+                            </div>
+                            <p class="text-sm text-gray-700 mt-1">${content}</p>
+                        </div>
+                    </div>
+                `;
+                list.appendChild(div);
+            });
         }
+
+        // Init
+        document.addEventListener('DOMContentLoaded', () => {
+            AOS.init();
+            const langToggle = document.getElementById('language-toggle');
+            
+            // Initial Render
+            const savedLang = localStorage.getItem('portfolioLang') || 'ar';
+            langToggle.value = savedLang;
+            document.documentElement.lang = savedLang;
+            document.documentElement.dir = savedLang === 'ar' ? 'rtl' : 'ltr';
+            renderContent(savedLang);
+            fetchComments();
+
+            // Language Change Listener
+            langToggle.addEventListener('change', (e) => {
+                const lang = e.target.value;
+                document.documentElement.lang = lang;
+                document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+                localStorage.setItem('portfolioLang', lang);
+                renderContent(lang);
+            });
+
+            // Comment Form Submit
+            document.getElementById('comment-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const nameInput = document.getElementById('comment-name');
+                const bodyInput = document.getElementById('comment-body');
+                const btn = e.target.querySelector('button');
+                const originalText = btn.textContent;
+                
+                btn.disabled = true;
+                btn.textContent = '...';
+
+                const { error } = await supabase
+                    .from('comments')
+                    .insert([{ name: nameInput.value, content: bodyInput.value }]);
+
+                btn.disabled = false;
+                btn.textContent = originalText;
+
+                if (error) {
+                    alert('Error posting comment: ' + error.message);
+                } else {
+                    nameInput.value = '';
+                    bodyInput.value = '';
+                    fetchComments(); // Refresh list
+                }
+            });
+        });
     </script>
 </body>
 </html>
