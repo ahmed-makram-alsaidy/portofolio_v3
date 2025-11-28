@@ -1,279 +1,197 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-lang-key="allCertificatesTitle">معرض الشهادات | أحمد مكرم</title>
+    <title data-lang-key="galleryTitle">Certificates Gallery | Ahmed Makram</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Inter:wght@400;500;600;700;800&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="icon" href="ahmed.png" type="image/png">
+
     <style>
+        :root {
+            --linkedin-blue: #0A66C2;
+            --linkedin-bg: #F3F2EF;
+            --card-bg: #FFFFFF;
+            --text-main: #191919;
+            --text-sub: #666666;
+        }
         body {
             font-family: 'Cairo', 'Inter', sans-serif;
-            background: linear-gradient(180deg, #0f172a 0%, #020617 70%, #000000 100%);
-            color: #e2e8f0;
-            overflow-x: hidden;
+            background-color: var(--linkedin-bg);
+            color: var(--text-main);
         }
-        .gradient-text {
-            background: linear-gradient(to right, #38bdf8, #818cf8, #a78bfa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .font-serif-display {
-            font-family: 'Lora', serif;
-        }
-        .glass-card {
-            background-color: rgba(30, 41, 59, 0.6);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(51, 65, 85, 0.5);
-            border-radius: 0.75rem;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-        }
-        .gallery-carousel-wrapper { max-width: 1200px; margin-left: auto; margin-right: auto; }
-
-        .gallery-thumb-nav {
-            position: relative;
-            transition: all 0.3s ease-in-out;
-        }
-        .lg\:gallery-thumb-nav-vertical::before {
-            content: '';
-            position: absolute;
-            top: 10px;
-            bottom: 10px;
-            width: 3px;
-            background: linear-gradient(to bottom, #38bdf8, #a78bfa);
-            border-radius: 1.5px;
-            z-index: 0;
-            opacity: 0.7;
-        }
-        html[dir="ltr"] .lg\:gallery-thumb-nav-vertical::before { left: 10px; padding-left: 25px; } /* Ensure padding for LTR */
-        html[dir="rtl"] .lg\:gallery-thumb-nav-vertical::before { right: 10px; padding-right: 25px; } /* Ensure padding for RTL */
-
-
-        .gallery-thumb-item {
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            border: 3px solid transparent;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            position: relative;
-            z-index: 1;
-            opacity: 0.7;
-            flex-shrink: 0;
-        }
-        .gallery-thumb-nav-horizontal .gallery-thumb-item {
-            margin-left: 0.5rem;
-            margin-right: 0.5rem;
-        }
-        .lg\:gallery-thumb-nav-vertical .gallery-thumb-item {
-            margin-bottom: 1.5rem;
-        }
-
-
-        .gallery-thumb-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 50%;
-            filter: grayscale(50%);
-            transition: filter 0.3s ease;
-        }
-        .gallery-thumb-item.active {
-            border-color: #38bdf8;
-            transform: scale(1.15);
-            box-shadow: 0 0 15px rgba(56, 189, 248, 0.5);
-            opacity: 1;
-        }
-        .lg\.gallery-thumb-item.active {
-             transform: scale(1.2);
-             box-shadow: 0 0 20px rgba(56, 189, 248, 0.6);
-        }
-        .gallery-thumb-item.active img {
-            filter: grayscale(0%);
-        }
-        .gallery-thumb-item:hover:not(.active) {
-            border-color: rgba(129, 140, 248, 0.5);
-            transform: scale(1.05);
-            opacity: 0.9;
-        }
-        .lg\.gallery-thumb-item:hover:not(.active) {
-             transform: scale(1.1);
-        }
-        .gallery-thumb-item:hover:not(.active) img {
-            filter: grayscale(20%);
-        }
-
-        .gallery-main-image-slider {
-            position: relative;
+        .text-linkedin { color: var(--linkedin-blue); }
+        .bg-linkedin { background-color: var(--linkedin-blue); }
+        
+        .li-card {
+            background-color: var(--card-bg);
+            border-radius: 0.5rem;
+            box-shadow: 0 0 0 1px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.05);
             overflow: hidden;
-            perspective: 1800px;
-            height: 300px;
-        }
-        @media (min-width: 640px) {
-            .gallery-main-image-slider { height: 400px; }
-        }
-        @media (min-width: 1024px) {
-            .gallery-main-image-slider { height: 480px; }
         }
 
-        .gallery-slides-track {
-            display: flex;
-            height: 100%;
-            transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        .btn-primary {
+            background-color: var(--linkedin-blue);
+            color: white;
+            border-radius: 9999px;
+            padding: 0.4rem 1.2rem;
+            font-weight: 600;
+            transition: all 0.2s;
         }
-        .gallery-slide {
-            width: 100%;
-            flex-shrink: 0;
-            height: 100%;
-            box-sizing: border-box;
+        .btn-primary:hover { background-color: #004182; }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--linkedin-blue);
+            border: 1px solid var(--linkedin-blue);
+            border-radius: 9999px;
+            padding: 0.3rem 1rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .btn-outline:hover {
+            background-color: rgba(10, 102, 194, 0.1);
+            box-shadow: inset 0 0 0 1px var(--linkedin-blue);
+        }
+
+        /* Gallery Specific Styles */
+        .thumb-item {
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+            opacity: 0.7;
+        }
+        .thumb-item:hover { opacity: 1; }
+        .thumb-item.active {
+            border-color: var(--linkedin-blue);
+            opacity: 1;
+            transform: scale(1.05);
+        }
+        
+        .main-image-container {
             position: relative;
+            background-color: #f8f9fa; /* Light gray for image background */
             display: flex;
-            justify-content: center;
             align-items: center;
-            opacity: 0;
-            transform: scale(0.95) translateY(20px);
-            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+            justify-content: center;
+            min-height: 400px;
+            max-height: 600px;
         }
-        .gallery-slide.active-slide { opacity: 1; transform: scale(1) translateY(0); }
-        .gallery-slide img {
-            max-width: 90%;
-            max-height: 100%;
+        .main-image-container img {
+            max-height: 550px;
+            max-width: 100%;
             object-fit: contain;
-            border-radius: 0.75rem;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25), 0 4px 10px rgba(0,0,0,0.20);
-            transition: transform 0.4s ease-in-out;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
-        .lg\.gallery-slide img { max-width: 85%; }
 
-        .gallery-slide.active-slide img:hover { transform: scale(1.03); }
-
-        .gallery-item-details { min-height: 80px; padding-top: 0.75rem; }
-        .lg\.gallery-item-details { min-height: 100px; padding-top: 1rem; }
-        .gallery-item-details h3 { color: #e2e8f0; text-shadow: 0 1px 3px rgba(0,0,0,0.5); }
-        .gallery-item-details p { color: #cbd5e1; }
-
-        .thumb-horizontal-scroll::-webkit-scrollbar { height: 6px; }
-        .thumb-horizontal-scroll::-webkit-scrollbar-track { background: rgba(51, 65, 85, 0.3); border-radius: 3px; }
-        .thumb-horizontal-scroll::-webkit-scrollbar-thumb { background: rgba(129, 140, 248, 0.6); border-radius: 3px; }
-        .thumb-horizontal-scroll::-webkit-scrollbar-thumb:hover { background: rgba(129, 140, 248, 0.8); }
-        .lg\:thumb-vertical-scroll::-webkit-scrollbar { width: 8px; }
-        .lg\:thumb-vertical-scroll::-webkit-scrollbar-track { background: rgba(51, 65, 85, 0.3); border-radius: 4px; }
-        .lg\:thumb-vertical-scroll::-webkit-scrollbar-thumb { background: rgba(129, 140, 248, 0.6); border-radius: 4px; }
-        .lg\:thumb-vertical-scroll::-webkit-scrollbar-thumb:hover { background: rgba(129, 140, 248, 0.8); }
-
-
-        .styled-button { display: inline-flex; align-items: center; justify-content: center; padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 600; transition: all 0.3s ease; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .styled-button.primary { background: linear-gradient(to right, #38bdf8, #818cf8); color: white; }
-        .styled-button.primary:hover { background: linear-gradient(to right, #0ea5e9, #6366f1); box-shadow: 0 6px 12px rgba(56, 189, 248, 0.3); transform: translateY(-2px); }
-
-        .carousel-nav-button {
-            background: rgba(30, 41, 59, 0.5);
-            backdrop-filter: blur(5px);
-            color: #e2e8f0;
-            border: 1px solid rgba(51, 65, 85, 0.7);
-            border-radius: 50%;
-            width: 2.5rem;
-            height: 2.5rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 10;
-        }
-        .lg\.carousel-nav-button {
-            width: 3rem;
-            height: 3rem;
-        }
-        .carousel-nav-button:hover:not(:disabled) { background: rgba(56, 189, 248, 0.3); border-color: #38bdf8; transform: scale(1.1); }
-        .carousel-nav-button:disabled { background: rgba(51, 65, 85, 0.4); cursor: not-allowed; opacity: 0.6; }
-        .carousel-nav-button i { font-size: 1rem; }
-        .lg\.carousel-nav-button i { font-size: 1.25rem; }
-
+        /* Scrollbar for thumbnails */
+        .thumbs-scroll::-webkit-scrollbar { height: 6px; }
+        .thumbs-scroll::-webkit-scrollbar-track { background: #f1f1f1; }
+        .thumbs-scroll::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 3px; }
+        .thumbs-scroll::-webkit-scrollbar-thumb:hover { background: #a8a8a8; }
     </style>
 </head>
-<body class="antialiased">
+<body class="antialiased pt-20">
 
-    <header class="py-4 px-4 sm:px-6 lg:px-8 bg-slate-900/80 backdrop-blur-lg shadow-md sticky top-0 z-50">
-        <div class="container mx-auto flex justify-between items-center">
-            <a href="index.html" class="text-2xl sm:text-3xl font-bold gradient-text" data-lang-key="navBrand">أحمد مكرم</a>
-            <nav class="flex items-center space-x-3 sm:space-x-6 rtl:space-x-reverse rtl:sm:space-x-reverse">
-                <a href="index.html#home" class="text-sm sm:text-base hover:text-sky-400 transition-colors" data-lang-key="navHome">الرئيسية</a>
-                <a href="index.html" class="styled-button primary text-xs sm:text-sm px-3 py-1.5 sm:px-4 sm:py-2" data-lang-key="backToMainPortfolio">
-                    <i class="fas fa-arrow-left text-xs sm:text-sm mr-1 rtl:ml-1 rtl:mr-0"></i> <span class="link-text">العودة للملف الشخصي</span>
+    <!-- Navbar -->
+    <nav class="fixed top-0 inset-x-0 z-50 bg-white shadow-sm h-16 transition-all duration-300">
+        <div class="container mx-auto px-4 h-full flex items-center justify-between max-w-7xl">
+            <div class="flex items-center gap-4">
+                <a href="index.html" class="text-3xl text-linkedin font-bold"><i class="fab fa-linkedin"></i></a>
+                <span class="text-lg font-bold text-gray-700 hidden sm:block border-r border-gray-300 pr-4 mr-4 rtl:border-l rtl:border-r-0 rtl:pl-4 rtl:mr-0 rtl:pr-0" data-lang-key="galleryHeader">Certificates Gallery</span>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="btn-outline text-sm flex items-center gap-2">
+                    <i class="fas fa-arrow-left rtl:rotate-180"></i> <span data-lang-key="backBtn">Back to Profile</span>
                 </a>
-                 <select id="language-toggle" class="ml-2 sm:ml-4 bg-slate-700 text-slate-200 border border-slate-600 rounded-md py-1 px-1.5 sm:py-1.5 sm:px-2 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 cursor-pointer">
+                <select id="language-toggle" class="bg-transparent text-gray-600 font-semibold cursor-pointer focus:outline-none hover:text-black text-sm">
                     <option value="ar">العربية</option>
                     <option value="en">English</option>
                 </select>
-            </nav>
-        </div>
-    </header>
-
-    <main class="container mx-auto py-10 sm:py-16 px-4">
-        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-12 sm:mb-16 lg:mb-20 text-center gradient-text" data-lang-key="allCertificatesTitle" data-aos="fade-down">معرض الشهادات</h1>
-
-        <div class="gallery-carousel-wrapper relative flex flex-col items-center gap-y-8" data-aos="fade-up" data-aos-delay="200">
-            <div class="gallery-main-carousel-container relative w-full max-w-2xl lg:max-w-3xl glass-card p-4 sm:p-6 md:p-8 order-1" data-aos="fade-up" data-aos-delay="300">
-                <div class="gallery-main-image-slider relative overflow-hidden mb-4 sm:mb-6 rounded-lg">
-                    <div class="gallery-slides-track flex">
-                        </div>
-                </div>
-                <div class="gallery-item-details text-center">
-                    <h3 class="text-xl sm:text-2xl md:text-3xl font-serif-display font-bold mb-2" id="gallery-item-title"></h3>
-                    <p class="text-xs sm:text-sm md:text-base leading-relaxed min-h-[3em] sm:min-h-[4em]" id="gallery-item-description"></p>
-                </div>
-                <button id="gallery-prev-btn" aria-label="Previous Certificate" class="carousel-nav-button lg:carousel-nav-button absolute top-1/2 transform -translate-y-1/2 left-2 sm:left-3 md:left-4 lg:-left-5"><i class="fas fa-chevron-left"></i></button>
-                <button id="gallery-next-btn" aria-label="Next Certificate" class="carousel-nav-button lg:carousel-nav-button absolute top-1/2 transform -translate-y-1/2 right-2 sm:right-3 md:right-4 lg:-right-5"><i class="fas fa-chevron-right"></i></button>
             </div>
+        </div>
+    </nav>
 
-            <nav class="gallery-thumb-nav w-full lg:w-[120px] order-2 flex items-center justify-start lg:justify-center lg:flex-col
-                        overflow-x-auto lg:overflow-x-hidden lg:overflow-y-auto lg:max-h-[480px]
-                        py-4 glass-card lg:p-4 thumb-horizontal-scroll lg:thumb-vertical-scroll
-                        lg:gallery-thumb-nav-vertical gallery-thumb-nav-horizontal"
-                 data-aos="fade-up" data-aos-delay="400">
-                </nav>
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-6 max-w-7xl">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 h-[calc(100vh-100px)]">
+            
+            <!-- Left Side: Thumbnails List -->
+            <aside class="lg:col-span-3 lg:col-start-1 order-2 lg:order-1 h-full flex flex-col">
+                <div class="li-card flex flex-col h-full">
+                    <div class="p-4 border-b border-gray-100 bg-white z-10">
+                        <h2 class="font-bold text-gray-900" data-lang-key="allCerts">All Certificates</h2>
+                        <p class="text-xs text-gray-500 mt-1" id="cert-counter">1 of 12</p>
+                    </div>
+                    
+                    <div class="overflow-y-auto flex-1 p-2 space-y-2 thumbs-scroll" id="thumbnails-container">
+                        <!-- Thumbnails injected here -->
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Right Side: Main Viewer -->
+            <section class="lg:col-span-9 order-1 lg:order-2 flex flex-col h-full">
+                <div class="li-card flex flex-col h-full">
+                    <!-- Image Area -->
+                    <div class="flex-1 main-image-container p-4 relative group">
+                        <button id="prev-btn" class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 p-3 rounded-full shadow-lg z-10 transition opacity-0 group-hover:opacity-100 focus:opacity-100 disabled:opacity-0">
+                            <i class="fas fa-chevron-left text-xl"></i>
+                        </button>
+                        
+                        <img id="main-image" src="" alt="Certificate" class="rounded-sm transition-all duration-300">
+                        
+                        <button id="next-btn" class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 p-3 rounded-full shadow-lg z-10 transition opacity-0 group-hover:opacity-100 focus:opacity-100 disabled:opacity-0">
+                            <i class="fas fa-chevron-right text-xl"></i>
+                        </button>
+                    </div>
+
+                    <!-- Details Area -->
+                    <div class="p-5 border-t border-gray-100 bg-white">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h1 id="cert-title" class="text-xl sm:text-2xl font-bold text-gray-900 mb-2">Certificate Title</h1>
+                                <p id="cert-desc" class="text-sm text-gray-600 leading-relaxed max-w-3xl">Description of the certificate goes here.</p>
+                            </div>
+                            <div class="hidden sm:block">
+                                <span class="text-linkedin text-3xl"><i class="fas fa-award"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
         </div>
     </main>
 
-    <footer class="mt-16 sm:mt-24 py-10 px-4 sm:px-6 lg:px-8 text-center bg-black/70 border-t border-slate-700/70">
-        <div class="container mx-auto">
-            <p class="text-sm text-slate-400" data-lang-key="footerText">&copy; <span id="currentYear"></span> أحمد مكرم الصعيدي. جميع الحقوق محفوظة.</p>
-        </div>
-    </footer>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // Updated certificate data with new keys and descriptions
+        // Data
         const certificatesData = [
-            {img: "images/certificate (1).jpg", titleKey: "certEdraakPythonIntro", descriptionKey: "certEdraakPythonIntroDesc"},
-            {img: "images/certificate (3).jpg", titleKey: "certMimoJs", descriptionKey: "certMimoJsDesc"}, // Assuming page 2 is Mimo JS
-            {img: "images/certificate (5).jpg", titleKey: "certUdemyPythonBeginners", descriptionKey: "certUdemyPythonBeginnersDesc"}, // Assuming page 3 is Udemy Python
-            {img: "images/certificate (9).jpg", titleKey: "certMaarefPythonApps", descriptionKey: "certMaarefPythonAppsDesc"}, // Assuming page 4 is Maaref Ar
-            {img: "images/certificate (10).jpg", titleKey: "certM3aarfPythonApps", descriptionKey: "certM3aarfPythonAppsDesc"},// Assuming page 5 is M3aarf En
-            {img: "images/certificate (11).jpg", titleKey: "certMimoPython", descriptionKey: "certMimoPythonDesc"}, // Assuming page 6 is Mimo Python
-            {img: "images/certificate (12).jpg", titleKey: "certMimoGamesCsharp", descriptionKey: "certMimoGamesCsharpDesc"}, // Assuming page 7 is Mimo Games
-            {img: "images/certificate (14).jpg", titleKey: "certCourseraGooglePython", descriptionKey: "certCourseraGooglePythonDesc"}, // Assuming page 9 is Coursera Google Python
-            {img: "images/certificate (1).jpg", titleKey: "certEdraakPythonIntro2", descriptionKey: "certEdraakPythonIntro2Desc"}, // Assuming page 10 is Edraak Python (possibly different ID)
-            {img: "images/certificate (16).jpg", titleKey: "certITIMobileAndroid", descriptionKey: "certITIMobileAndroidDesc"}, // Assuming page 11 is ITI Android
-            {img: "images/certificate (17).jpg", titleKey: "certEYouthSDGs", descriptionKey: "certEYouthSDGsDesc"}, // Assuming page 12 is EYouth SDGs
-            // Add a 12th certificate if you have a corresponding image for "certificate (17).jpg"
-            // For now, let's use a placeholder or one of the existing ones if it's a duplicate meaning
+            {img: "images/certificate (1).jpg", titleKey: "certEdraakPythonIntro", descKey: "certEdraakPythonIntroDesc"},
+            {img: "images/certificate (3).jpg", titleKey: "certMimoJs", descKey: "certMimoJsDesc"}, 
+            {img: "images/certificate (5).jpg", titleKey: "certUdemyPythonBeginners", descKey: "certUdemyPythonBeginnersDesc"}, 
+            {img: "images/certificate (9).jpg", titleKey: "certMaarefPythonApps", descKey: "certMaarefPythonAppsDesc"}, 
+            {img: "images/certificate (10).jpg", titleKey: "certM3aarfPythonApps", descKey: "certM3aarfPythonAppsDesc"},
+            {img: "images/certificate (11).jpg", titleKey: "certMimoPython", descKey: "certMimoPythonDesc"}, 
+            {img: "images/certificate (12).jpg", titleKey: "certMimoGamesCsharp", descKey: "certMimoGamesCsharpDesc"}, 
+            {img: "images/certificate (14).jpg", titleKey: "certCourseraGooglePython", descKey: "certCourseraGooglePythonDesc"}, 
+            {img: "images/certificate (1).jpg", titleKey: "certEdraakPythonIntro2", descKey: "certEdraakPythonIntro2Desc"}, 
+            {img: "images/certificate (16).jpg", titleKey: "certITIMobileAndroid", descKey: "certITIMobileAndroidDesc"}, 
+            {img: "images/certificate (17).jpg", titleKey: "certEYouthSDGs", descKey: "certEYouthSDGsDesc"},
+            {img: "images/certificate (13).jpg", titleKey: "certUdemyPythonExtra", descKey: "certUdemyPythonExtraDesc"}
         ];
-
 
         const translations = {
             ar: {
-                allCertificatesTitle: "معرض الشهادات",
-                navBrand: "أحمد مكرم",
-                navHome: "الرئيسية",
-                backToMainPortfolio: "العودة للملف الشخصي",
-                footerText: `&copy; ${new Date().getFullYear()} أحمد مكرم الصعيدي. جميع الحقوق محفوظة.`,
-                // Certificate Titles and Descriptions (AR)
+                galleryHeader: "معرض الشهادات",
+                backBtn: "العودة للملف الشخصي",
+                allCerts: "قائمة الشهادات",
+                // Cert Details
                 certEdraakPythonIntro: "مقدمة البرمجة بلغة بايثون (إدراك)",
                 certEdraakPythonIntroDesc: "تعرف على مفهوم البرمجة وكتابة البرامج باستخدام Python، بما في ذلك اللبنات الأساسية وهيكلية الشرط والتكرار والدوال.",
                 certMimoJs: "شهادة JavaScript (Mimo)",
@@ -282,7 +200,7 @@
                 certUdemyPythonBeginnersDesc: "إكمال 11 ساعة من دورة Python للمبتدئين عبر الإنترنت.",
                 certMaarefPythonApps: "تطبيقات لغة البايثون (معارف)",
                 certMaarefPythonAppsDesc: "شهادة إنجاز تدريبي معتمدة من منصة معارف في تطبيقات لغة البايثون.",
-                certM3aarfPythonApps: "Python Applications (M3aarf)", // English version of Maaref
+                certM3aarfPythonApps: "Python Applications (M3aarf)",
                 certM3aarfPythonAppsDesc: "Certified from M3aarf Platform for studying a course about Python applications.",
                 certMimoPython: "شهادة Python (Mimo)",
                 certMimoPythonDesc: "فهم المفاهيم الأساسية اللازمة للبرمجة بلغة Python، بما في ذلك هياكل البيانات، عبارات التحكم، الدوال، والوحدات.",
@@ -290,22 +208,20 @@
                 certMimoGamesCsharpDesc: "فهم المفاهيم الأساسية اللازمة لبرمجة الألعاب بلغة C#، مثل المتغيرات، عبارات التحكم، الحلقات، هياكل البيانات، والدوال.",
                 certCourseraGooglePython: "دورة مكثفة في بايثون (Google - Coursera)",
                 certCourseraGooglePythonDesc: "إكمال دورة \"Crash Course on Python\" المعتمدة من Google والمقدمة عبر Coursera بنجاح.",
-                certEdraakPythonIntro2: "مقدمة البرمجة بلغة بايثون (إدراك - نسخة أخرى)", // If it's a different instance
+                certEdraakPythonIntro2: "مقدمة البرمجة بلغة بايثون (إدراك - نسخة أخرى)",
                 certEdraakPythonIntro2Desc: "مساق تفاعلي آخر حول أساسيات البرمجة بلغة Python.",
                 certITIMobileAndroid: "تطوير تطبيقات Android باستخدام Java (ITI)",
                 certITIMobileAndroidDesc: "إكمال دورة تطوير تطبيقات الهواتف المحمولة لنظام Android باستخدام لغة Java من منصة ITI.",
                 certEYouthSDGs: "برنامج التوعية بأهداف التنمية المستدامة (EYouth)",
                 certEYouthSDGsDesc: "شهادة اجتياز المحتوى التعليمي لبرنامج التوعية بأهداف التنمية المستدامة (17 هدفًا) بالتعاون مع وزارة الدولة للإعلام.",
-                certPlaceholder12Title: "شهادة إضافية",
-                certPlaceholder12Desc: "وصف للشهادة الإضافية."
+                certUdemyPythonExtra: "شهادة بايثون إضافية (Udemy)",
+                certUdemyPythonExtraDesc: "شهادة إتمام دورة بايثون الشاملة من منصة Udemy لتعزيز مهارات البرمجة."
             },
             en: {
-                allCertificatesTitle: "Certificates Gallery",
-                navBrand: "Ahmed Makram",
-                navHome: "Home",
-                backToMainPortfolio: "Back to Portfolio",
-                footerText: `&copy; ${new Date().getFullYear()} Ahmed Makram El-Saeedy. All rights reserved.`,
-                // Certificate Titles and Descriptions (EN)
+                galleryHeader: "Certificates Gallery",
+                backBtn: "Back to Profile",
+                allCerts: "All Certificates",
+                // Cert Details
                 certEdraakPythonIntro: "Intro to Python Programming (Edraak)",
                 certEdraakPythonIntroDesc: "Learned programming concepts and how to write programs using Python, including basic building blocks, control structures, and functions.",
                 certMimoJs: "JavaScript Certificate (Mimo)",
@@ -328,209 +244,128 @@
                 certITIMobileAndroidDesc: "Completed the course on developing mobile applications for Android using Java from the ITI platform.",
                 certEYouthSDGs: "SDGs Awareness Program (EYouth)",
                 certEYouthSDGsDesc: "Certificate for passing the educational content of the Sustainable Development Goals awareness program (17 goals).",
-                certPlaceholder12Title: "Additional Certificate",
-                certPlaceholder12Desc: "Description for the additional certificate."
+                certUdemyPythonExtra: "Python Certificate (Udemy)",
+                certUdemyPythonExtraDesc: "Additional completion certificate for a comprehensive Python course from Udemy."
             }
         };
 
-        let currentGalleryIndex = 0;
-        const gallerySlidesTrack = document.querySelector('.gallery-slides-track');
-        const galleryThumbNav = document.querySelector('.gallery-thumb-nav');
-        const galleryItemTitle = document.getElementById('gallery-item-title');
-        const galleryItemDescription = document.getElementById('gallery-item-description');
-        const galleryPrevBtn = document.getElementById('gallery-prev-btn');
-        const galleryNextBtn = document.getElementById('gallery-next-btn');
+        let currentIndex = 0;
 
-        function renderGallery() {
-            if (!gallerySlidesTrack || !galleryThumbNav) {
-                console.error("Gallery track or thumbnav not found! Ensure the HTML structure is correct.");
-                return;
-            }
-            // console.log("[DEBUG] certificatesData at the start of renderGallery:", JSON.stringify(certificatesData.map(c => ({ img: c.img, titleKey: c.titleKey }))));
-
-            gallerySlidesTrack.innerHTML = '';
-            galleryThumbNav.innerHTML = '';
-            const currentLang = document.documentElement.lang || 'ar';
-
-            certificatesData.forEach((cert, index) => {
-                const altText = translations[currentLang]?.[cert.titleKey] || cert.defaultTitle || "Certificate Image";
-                const originalImagePathFromData = cert.img;
-                // console.log(`[DEBUG] For certificate "${altText}" (index ${index}): - Original path from certificatesData: "${originalImagePathFromData}"`);
-
-                const slide = document.createElement('div');
-                slide.className = 'gallery-slide';
-                slide.innerHTML = `<img src="${originalImagePathFromData}" alt="${altText}" onerror="this.onerror=null; this.src='https://placehold.co/700x500/0f172a/e2e8f0?text=Image+Not+Found&font=cairo&font-size=20'; console.error('Error loading MAIN image: ${originalImagePathFromData}')">`;
-                gallerySlidesTrack.appendChild(slide);
-
-                const thumb = document.createElement('div');
-                thumb.className = 'gallery-thumb-item lg:gallery-thumb-item';
-                thumb.dataset.index = index;
-                thumb.setAttribute('aria-label', `View certificate: ${altText}`);
-                thumb.innerHTML = `<img src="${originalImagePathFromData}" alt="Thumbnail ${index + 1}: ${altText}" onerror="this.onerror=null; this.src='https://placehold.co/64x64/0f172a/e2e8f0?text=${index+1}&font=cairo'; console.error('Error loading THUMBNAIL image: ${originalImagePathFromData}')">`;
-                thumb.addEventListener('click', () => { goToSlide(index); });
-                galleryThumbNav.appendChild(thumb);
-            });
-
-            if (certificatesData.length > 0 && gallerySlidesTrack.children.length > currentGalleryIndex && gallerySlidesTrack.children[currentGalleryIndex]) {
-                 gallerySlidesTrack.children[currentGalleryIndex].classList.add('active-slide');
-            } else if (certificatesData.length > 0) {
-                // console.warn("[DEBUG] Could not set initial active slide. currentGalleryIndex or children might be out of bounds.");
-            }
-            updateGalleryDisplay();
-        }
-
-        function updateGalleryDisplay() {
-            const lang = document.documentElement.lang || 'ar';
-            const numSlides = certificatesData.length;
-
-             if (numSlides === 0) {
-                if (galleryItemTitle) galleryItemTitle.textContent = lang === 'ar' ? "لا توجد شهادات لعرضها" : "No certificates to display";
-                if (galleryItemDescription) galleryItemDescription.textContent = "";
-                if(galleryPrevBtn) galleryPrevBtn.disabled = true;
-                if(galleryNextBtn) galleryNextBtn.disabled = true;
-                if(gallerySlidesTrack) gallerySlidesTrack.style.transform = 'translateX(0%)';
-                return;
-            }
-
-            if (currentGalleryIndex < 0 || currentGalleryIndex >= numSlides) {
-                currentGalleryIndex = 0;
-            }
-            const currentCert = certificatesData[currentGalleryIndex];
-            if (!currentCert) {
-                console.error("[DEBUG] Current certificate data is undefined for index:", currentGalleryIndex);
-                return;
-            }
-
-            if(gallerySlidesTrack) {
-                const isRTL = document.documentElement.dir === 'rtl';
-                let translateXValue;
-                translateXValue = (isRTL ? currentGalleryIndex : -currentGalleryIndex) * 100;
-                gallerySlidesTrack.style.transform = `translateX(${translateXValue}%)`;
-                // console.log(`[DEBUG] RTL: ${isRTL}, Index: ${currentGalleryIndex}, TranslateX: ${translateXValue}%`);
-
-                Array.from(gallerySlidesTrack.children).forEach((slide, idx) => {
-                    slide.classList.toggle('active-slide', idx === currentGalleryIndex);
-                });
-            }
-
-            document.querySelectorAll('.gallery-thumb-item').forEach((thumb, index) => {
-                thumb.classList.toggle('active', index === currentGalleryIndex);
-            });
-
-            if (galleryItemTitle) galleryItemTitle.textContent = translations[lang]?.[currentCert.titleKey] || currentCert.defaultTitle || "Certificate Title";
-            if (galleryItemDescription) galleryItemDescription.textContent = translations[lang]?.[currentCert.descriptionKey] || currentCert.defaultDescription || "Certificate description.";
-
-
-            if(galleryPrevBtn) galleryPrevBtn.disabled = currentGalleryIndex === 0;
-            if(galleryNextBtn) galleryNextBtn.disabled = currentGalleryIndex === numSlides - 1;
-
-            const activeThumb = galleryThumbNav?.querySelector(`.gallery-thumb-item[data-index="${currentGalleryIndex}"]`);
-            if (activeThumb && galleryThumbNav) {
-                if (window.innerWidth < 1024 && galleryThumbNav.scrollWidth > galleryThumbNav.clientWidth) {
-                    const navRect = galleryThumbNav.getBoundingClientRect();
-                    const thumbRect = activeThumb.getBoundingClientRect();
-                    const scrollLeft = galleryThumbNav.scrollLeft;
-                    const thumbOffsetLeft = activeThumb.offsetLeft;
-                    const thumbWidth = activeThumb.offsetWidth;
-
-                    if (thumbOffsetLeft < scrollLeft) {
-                        galleryThumbNav.scrollLeft = thumbOffsetLeft - 10;
-                    } else if (thumbOffsetLeft + thumbWidth > scrollLeft + navRect.width) {
-                        galleryThumbNav.scrollLeft = thumbOffsetLeft + thumbWidth - navRect.width + 10;
-                    }
-                }
-                else if (window.innerWidth >= 1024 && galleryThumbNav.scrollHeight > galleryThumbNav.clientHeight) {
-                    const navRect = galleryThumbNav.getBoundingClientRect();
-                    const scrollTop = galleryThumbNav.scrollTop;
-                    const thumbOffsetTop = activeThumb.offsetTop;
-                    const thumbHeight = activeThumb.offsetHeight;
-
-                    if (thumbOffsetTop < scrollTop) {
-                        galleryThumbNav.scrollTop = thumbOffsetTop - 10;
-                    } else if (thumbOffsetTop + thumbHeight > scrollTop + navRect.height) {
-                        galleryThumbNav.scrollTop = thumbOffsetTop + thumbHeight - navRect.height + 10;
-                    }
-                }
-            }
-        }
-
-        function goToSlide(index) {
-            currentGalleryIndex = Math.max(0, Math.min(index, certificatesData.length - 1));
-            updateGalleryDisplay();
-        }
-
-        function setupGalleryEventListeners() {
-            if(galleryPrevBtn) {
-                galleryPrevBtn.addEventListener('click', () => {
-                    if (currentGalleryIndex > 0) {
-                        goToSlide(currentGalleryIndex - 1);
-                    }
-                });
-            }
-            if(galleryNextBtn) {
-                galleryNextBtn.addEventListener('click', () => {
-                    if (currentGalleryIndex < certificatesData.length - 1) {
-                        goToSlide(currentGalleryIndex + 1);
-                    }
-                });
-            }
-             window.addEventListener('resize', updateGalleryDisplay);
-        }
-
-        function setLanguageGallery(selectedLang) {
-            const langToggle = document.getElementById('language-toggle');
-            if (langToggle) langToggle.value = selectedLang;
-
-            document.documentElement.lang = selectedLang;
-            document.documentElement.dir = selectedLang === 'ar' ? 'rtl' : 'ltr';
-            localStorage.setItem('portfolioLanguage', selectedLang);
-
+        function renderGallery(lang) {
+            const t = translations[lang];
+            const isRtl = lang === 'ar';
+            
+            // Text Updates
             document.querySelectorAll('[data-lang-key]').forEach(el => {
                 const key = el.getAttribute('data-lang-key');
-                if (translations[selectedLang] && translations[selectedLang][key]) {
-                     let content = translations[selectedLang][key];
-                    const iconElement = el.querySelector('i.fas');
-                    const textSpan = el.querySelector('.link-text');
+                if (t[key]) el.textContent = t[key];
+            });
 
-                    if (textSpan && iconElement) {
-                        textSpan.textContent = content;
-                        if (selectedLang === 'ar') {
-                            iconElement.classList.remove('mr-1', 'mr-2'); iconElement.classList.add('ml-1', 'ml-2');
-                            el.classList.add('flex-row-reverse');
-                        } else {
-                            iconElement.classList.remove('ml-1', 'ml-2'); iconElement.classList.add('mr-1', 'mr-2');
-                            el.classList.remove('flex-row-reverse');
-                        }
+            // Update Main Content
+            updateMainContent(lang);
+
+            // Render Thumbnails
+            const thumbsContainer = document.getElementById('thumbnails-container');
+            thumbsContainer.innerHTML = certificatesData.map((cert, idx) => `
+                <div class="thumb-item flex items-center gap-3 p-2 rounded cursor-pointer hover:bg-gray-50 ${idx === currentIndex ? 'active bg-blue-50 border-l-4 border-blue-600' : ''}" 
+                     onclick="setIndex(${idx})">
+                    <img src="${cert.img}" class="w-16 h-12 object-cover rounded border border-gray-200" onerror="this.src='https://placehold.co/60x40/e2e8f0/1f2937?text=Img'">
+                    <div class="flex-1 min-w-0">
+                        <h4 class="text-sm font-semibold text-gray-900 truncate">${t[cert.titleKey]}</h4>
+                        <p class="text-xs text-gray-500 truncate">Certificate #${idx + 1}</p>
+                    </div>
+                </div>
+            `).join('');
+
+            // Counter
+            document.getElementById('cert-counter').textContent = `${currentIndex + 1} / ${certificatesData.length}`;
+        }
+
+        function updateMainContent(lang) {
+            const cert = certificatesData[currentIndex];
+            const t = translations[lang];
+            
+            const mainImg = document.getElementById('main-image');
+            mainImg.style.opacity = '0';
+            
+            setTimeout(() => {
+                mainImg.src = cert.img;
+                mainImg.onerror = function() { this.src = 'https://placehold.co/800x600/f3f4f6/6b7280?text=Image+Not+Found'; };
+                document.getElementById('cert-title').textContent = t[cert.titleKey];
+                document.getElementById('cert-desc').textContent = t[cert.descKey];
+                document.getElementById('cert-counter').textContent = `${currentIndex + 1} / ${certificatesData.length}`;
+                
+                // Update active class in thumbnails without re-rendering everything
+                document.querySelectorAll('.thumb-item').forEach((el, idx) => {
+                    if (idx === currentIndex) {
+                        el.classList.add('active', 'bg-blue-50', lang === 'ar' ? 'border-r-4' : 'border-l-4', 'border-blue-600');
                     } else {
-                        el.innerHTML = content;
+                        el.classList.remove('active', 'bg-blue-50', 'border-l-4', 'border-r-4', 'border-blue-600');
+                    }
+                });
+
+                // Scroll active thumb into view
+                const activeThumb = document.querySelector('.thumb-item.active');
+                if (activeThumb) activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+                mainImg.style.opacity = '1';
+            }, 200);
+
+            // Update buttons
+            document.getElementById('prev-btn').disabled = currentIndex === 0;
+            document.getElementById('next-btn').disabled = currentIndex === certificatesData.length - 1;
+        }
+
+        window.setIndex = function(idx) {
+            currentIndex = idx;
+            const lang = document.documentElement.lang;
+            updateMainContent(lang);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('portfolioLang') || 'ar';
+            const langToggle = document.getElementById('language-toggle');
+            
+            langToggle.value = savedLang;
+            document.documentElement.lang = savedLang;
+            document.documentElement.dir = savedLang === 'ar' ? 'rtl' : 'ltr';
+            
+            renderGallery(savedLang);
+
+            // Events
+            langToggle.addEventListener('change', (e) => {
+                const lang = e.target.value;
+                document.documentElement.lang = lang;
+                document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+                localStorage.setItem('portfolioLang', lang);
+                renderGallery(lang);
+            });
+
+            document.getElementById('prev-btn').addEventListener('click', () => {
+                if (currentIndex > 0) setIndex(currentIndex - 1);
+            });
+
+            document.getElementById('next-btn').addEventListener('click', () => {
+                if (currentIndex < certificatesData.length - 1) setIndex(currentIndex + 1);
+            });
+
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight') {
+                    if (document.documentElement.dir === 'rtl') {
+                        if (currentIndex > 0) setIndex(currentIndex - 1);
+                    } else {
+                        if (currentIndex < certificatesData.length - 1) setIndex(currentIndex + 1);
+                    }
+                } else if (e.key === 'ArrowLeft') {
+                    if (document.documentElement.dir === 'rtl') {
+                        if (currentIndex < certificatesData.length - 1) setIndex(currentIndex + 1);
+                    } else {
+                        if (currentIndex > 0) setIndex(currentIndex - 1);
                     }
                 }
             });
-            renderGallery();
-            AOS.refresh();
-        }
-
-
-        document.addEventListener('DOMContentLoaded', function() {
-            AOS.init({
-                duration: 800,
-                once: true,
-                offset: 50,
-                easing: 'ease-in-out-quad',
-            });
-
-            const savedLang = localStorage.getItem('portfolioLanguage') || 'ar';
-            const langToggle = document.getElementById('language-toggle');
-
-            if (langToggle) {
-                langToggle.value = savedLang;
-                langToggle.addEventListener('change', function () { setLanguageGallery(this.value); });
-            }
-
-            setLanguageGallery(savedLang);
-            setupGalleryEventListeners();
         });
-
     </script>
 </body>
 </html>
